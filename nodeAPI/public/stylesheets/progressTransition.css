@@ -1,0 +1,10 @@
+.progress_Transition{
+    width: 100%;
+    -webkit-transition: width 3s; /* Safari */
+    transition: width 3s;
+}
+.outer_Div_Transition{
+    -webkit-transition:  3s; /* Safari */
+    transition:  3s;
+
+}
