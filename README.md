@@ -27,8 +27,10 @@ This repository is for the source control of Volunteer Hours Tracking. Our initi
 
 ### Contribution guidelines ###
 
-This project is designed for WAMPServer. Install the latest version from:
+This project is designed for WAMPServer x86. Install the latest version from:
 https://sourceforge.net/projects/wampserver/files/latest/download
+
+Alternatively, if you are running Windows or MacOS, install Apache, MySql, PHP individually.
 
 The gulp file expects the Apache directory to be:
 /wamp/www
