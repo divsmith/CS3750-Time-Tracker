@@ -39,6 +39,8 @@ This should work on either Windows or Linux as long as the directory is the same
 if they change. This allows a fluent dev experience.
 
 
+SweetAlert2 - Alert modal library - https://limonte.github.io/sweetalert2/
+
 * Writing tests
 * Code review
 * Other guidelines
