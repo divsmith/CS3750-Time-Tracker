@@ -47,3 +47,12 @@ gulp.task('CSSdependencies', function () {
     ])
     .pipe(gulp.dest('css/libs'))
 });
+
+gulp.task('start-all', ['CSSdependencies', 'JSdependencies', 'css', 'js', 'fonts', 'html'], function () {
+    gulp.start('CSSdependencies');
+    gulp.start('JSdependencies');
+    gulp.start('css');
+    gulp.start('js');
+    gulp.start('fonts');
+    gulp.start('html');
+});
