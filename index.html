@@ -23,15 +23,18 @@
         <link rel="stylesheet" href="css/main.css">
 
         <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+        <script src="js/libs/jquery.js"></script>
         <script src="js/libs/es6-promise.js"></script>
+        <script src="js/libs/moment.min.js"></script>
         <script src="js/libs/sweetalert2.js"></script>
         <script src="js/libs/sugar.js"></script>
+        <script src="js/libs/jquery.validate.js"></script>
     </head>
     <body>
         <!--[if lt IE 8]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <nav class="navbar navbar-default navbar-fixed-top light_shadow teal_text" role="navigation">
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -43,12 +46,12 @@
           <a class="navbar-brand" href="#">The Road Home</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
-          <form class="navbar-form navbar-right" role="form" novalidate>
+          <form id="adminSigninForm" class="navbar-form navbar-right" role="form" novalidate>
             <div class="form-group">
-              <input type="text" placeholder="Email" class="form-control">
+                <input type="email" id="adminEmail" placeholder="Email" class="form-control" required>
             </div>
             <div class="form-group">
-              <input type="password" placeholder="Password" class="form-control">
+                <input type="password" placeholder="Password" class="form-control" minlength="3" required>
             </div>
             <a class="btn btn-success" href="#" role="button" onclick="sweetTest();">Sign in</a>
           </form>
@@ -58,40 +61,69 @@
 
     <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron">
-      <div class="container">
-        <h1>Hello, The Road Home!!!</h1>
-        <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
-        <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
+      <div class="container text-center">
+        <h1 id="homeCurrentTime"></h1>
+        <h2 id="homeCurrentDate"></h2>
       </div>
     </div>
 
     <div class="container">
-      <!-- Example row of columns -->
-      <div class="row">
-        <div class="col-md-4">
-          <h2>Heading</h2>
-          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-        </div>
-        <div class="col-md-4">
-          <h2>Heading</h2>
-          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-       </div>
-        <div class="col-md-4">
-          <h2>Heading</h2>
-          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-        </div>
-      </div>
-
-      <hr>
-
+        <form action="/api/users" method="POST">
+            <div class="row">
+                <div class="form-group">
+                    <label for="username">Username:</label>
+                    <input type="text" name="username" class="form-control" id="username">
+                </div>
+            </div>
+            <div class="row">
+                <!--Only display this if the username doesn't exist -->
+                <div class="form-group">
+                    <label for="firstname">First Name:</label>
+                    <input name="firstname" type="text" class="form-control" id="firstname">
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <label for="lastname">Last Name:</label>
+                    <input name="lastname" type="text" class="form-control" id="lastname">
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <label for="organization">Organization:</label>
+                    <input name="organization" type="text" class="form-control" id="organization">
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <label for="department">Department:</label>
+                    <select name="department" id="department">
+                        <option value="dep1">department1</option>
+                        <option value="dep2">department2</option>
+                        <option value="dep3">department3</option>
+                        <option value="dep4">department4</option>
+                        <option value="dep5">department5</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="checkbox">
+                    <label><input type="checkbox"> Email hours to me </label>
+                </div>
+            </div>
+            <div class="row">
+                <!--After 'registering' set active state to true, the next 'login' will set the active state to false then we will
+                record the time worked, and send an email to the username -->
+                <!--do we want to validate the email address? -->
+                <!--If the login is active -->
+                <button type="submit" class="btn btn-default">Login</button>
+            </div>
+        </form>
+      <hr />
       <footer>
-        <p>&copy; Company 2015</p>
+        <p>&copy; Alpha Coders 2016</p>
       </footer>
-    </div> <!-- /container -->        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.js"></script>
-        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.js"><\/script>')</script>
+    </div> <!-- /container -->
 
         <script src="js/vendor/bootstrap.min.js"></script>
 
