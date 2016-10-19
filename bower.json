@@ -2,6 +2,9 @@
 	"name": "asp.net",
 	"private": true,
   "dependencies": {
+    "jquery": "3.1.1",
+    "jquery-validation": "1.15.1",
+    "momentjs": "2.15.1",
     "sugarjs": "2.0.0",
     "sweetalert2": "5.3.1"
   }

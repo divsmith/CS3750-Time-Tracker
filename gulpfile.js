@@ -36,7 +36,10 @@ gulp.task('JSdependencies', function () {
     return gulp.src([
         'bower_components/sweetalert2/dist/sweetalert2.js',
         'bower_components/es6-promise/es6-promise.js',
-        'bower_components/sugarjs/dist/sugar.js'
+        'bower_components/sugarjs/dist/sugar.js',
+        'bower_components/jquery/dist/jquery.js',
+        'bower_components/momentjs/min/moment.min.js',
+        'bower_components/jquery-validation/dist/jquery.validate.js'
     ])
     .pipe(gulp.dest('js/libs'))
 });
