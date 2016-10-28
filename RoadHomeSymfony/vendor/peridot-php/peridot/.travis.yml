@@ -1,0 +1,24 @@
+language: php
+
+php:
+  - 5.6
+  - 5.5
+  - 5.4
+  - 7
+  - hhvm
+  - hhvm-nightly
+
+matrix:
+  fast_finish: true
+  allow_failures:
+    - php: hhvm-nightly
+    - php: 7
+
+install:
+  - composer install --prefer-source
+
+script:
+  - CODE_COVERAGE=clover bin/peridot specs/
+
+after_script:
+  - php vendor/bin/coveralls

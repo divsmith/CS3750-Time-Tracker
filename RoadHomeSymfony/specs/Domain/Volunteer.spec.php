@@ -1,0 +1,137 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: kidlappy
+ * Date: 10/18/16
+ * Time: 11:41 PM
+ */
+
+use RoadHome\Domain\Volunteer;
+use RoadHome\Domain\StringLiteral;
+
+
+class VolunteerTest extends PHPUnit_Framework_TestCase {
+
+
+    public function testCreate(){
+        //want to check to make sure object isn't null
+        $result = new Volunteer(new StringLiteral('test@email.com'),
+            new StringLiteral('firstname'),
+            new StringLiteral('lastname'),
+            new StringLiteral('organization'),
+            new StringLiteral('department'),
+            new StringLiteral('1'));
+        $this->assertNotEquals($result,null);
+    }
+
+    public function testGetID(){
+        //Because the id hasn't been set and won't be set until the DB is up and persisting
+        $volunteer = new Volunteer(new StringLiteral('test@email.com'),
+            new StringLiteral('firstname'),
+            new StringLiteral('lastname'),
+            new StringLiteral('organization'),
+            new StringLiteral('department'),
+            new StringLiteral('1'));
+
+        $result = $volunteer->getId();
+        $this->assertEquals($result,null);
+    }
+
+    public function testSetID(){
+
+        $volunteer = new Volunteer(new StringLiteral('test@email.com'),
+            new StringLiteral('firstname'),
+            new StringLiteral('lastname'),
+            new StringLiteral('organization'),
+            new StringLiteral('department'),
+            new StringLiteral('1'));
+
+        $volunteer->setId(new StringLiteral('1'));
+        $result = $volunteer->getId();
+        $this->assertEquals($result,'1');
+    }
+
+    public function testGetEmail(){
+
+        $volunteer = new Volunteer(new StringLiteral('test@email.com'),
+            new StringLiteral('firstname'),
+            new StringLiteral('lastname'),
+            new StringLiteral('organization'),
+            new StringLiteral('department'),
+            new StringLiteral('1'));
+        $result = $volunteer->getEmail();
+        $this->assertEquals($result,'test@email.com');
+    }
+
+    public function testGetFirstname(){
+
+        $volunteer = new Volunteer(new StringLiteral('test@email.com'),
+            new StringLiteral('firstname'),
+            new StringLiteral('lastname'),
+            new StringLiteral('organization'),
+            new StringLiteral('department'),
+            new StringLiteral('1'));
+
+        $result = $volunteer->getFirstname();
+        $this->assertEquals($result, 'firstname');
+    }
+
+    public function testGetLastname(){
+
+        $volunteer = new Volunteer(new StringLiteral('test@email.com'),
+            new StringLiteral('firstname'),
+            new StringLiteral('lastname'),
+            new StringLiteral('organization'),
+            new StringLiteral('department'),
+            new StringLiteral('1'));
+
+        $result = $volunteer->getLastname();
+        $this->assertEquals($result,'lastname');
+
+    }
+
+    public function testGetOrganization(){
+
+        $volunteer = new Volunteer(new StringLiteral('test@email.com'),
+            new StringLiteral('firstname'),
+            new StringLiteral('lastname'),
+            new StringLiteral('organization'),
+            new StringLiteral('department'),
+            new StringLiteral('1'));
+
+        $result = $volunteer->getOrganization();
+        $this->assertEquals($result,'organization');
+
+    }
+
+    public function testGetDepartment(){
+
+        $volunteer = new Volunteer(new StringLiteral('test@email.com'),
+            new StringLiteral('firstname'),
+            new StringLiteral('lastname'),
+            new StringLiteral('organization'),
+            new StringLiteral('department'),
+            new StringLiteral('1'));
+        $result = $volunteer->getDepartment();
+        $this->assertEquals($result,'department');
+
+    }
+
+    public function testGetGroupnumber(){
+
+        $volunteer = new Volunteer(new StringLiteral('test@email.com'),
+            new StringLiteral('firstname'),
+            new StringLiteral('lastname'),
+            new StringLiteral('organization'),
+            new StringLiteral('department'),
+            new StringLiteral('1'));
+
+        $result = $volunteer->getGroupnumber();
+        $this->assertEquals($result, '1');
+
+    }
+
+}
+
+
+

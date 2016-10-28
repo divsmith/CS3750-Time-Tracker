@@ -1,0 +1,12 @@
+doctrine:
+    dbal:
+        dbname:               RoadHome
+        host:                 localhost
+        port:                 3306
+        user:                 root
+        password:             one
+        driver:               pdo_mysql
+        # the DBAL driverClass option
+        driver_class:         MyNamespace\MyDriverImpl
+
+        server_version:       5.6

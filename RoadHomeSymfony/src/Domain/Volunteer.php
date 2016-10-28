@@ -1,0 +1,177 @@
+<?php
+
+/**
+ * Created by PhpStorm.
+ * User: kidlappy
+ * Date: 10/18/16
+ * Time: 11:12 PM
+ */
+namespace RoadHome\Domain;
+
+use RoadHome\Domain\ValueObject;
+
+/**
+ * Class Volunteer
+ *
+ */
+class Volunteer
+{
+    /**
+     * @var StringLiteral $id
+     */
+    protected $id;
+    /**
+     * @var StringLiteral $email
+     */
+    protected $email;
+    /**
+     * @var StringLiteral $firstname
+     */
+    protected $firstname;
+    /**
+     * @var StringLiteral $lastname
+     */
+    protected $lastname;
+    /**
+     * @var StringLiteral $organization
+     */
+    protected $organization;
+    /**
+     * @var StringLiteral $department
+     */
+    protected $department;
+    /**
+     * @var StringLiteral $groupnumber
+     */
+    protected $groupnumber;
+
+    public function __Construct(
+        StringLiteral $email,
+        StringLiteral $firstname,
+        StringLiteral $lastname,
+        StringLiteral $organization,
+        StringLiteral $department,
+        StringLiteral $groupnumber
+
+    ){
+        $this->email = $email;
+        $this->firstname = $firstname;
+        $this->lastname = $lastname;
+        $this->organization = $organization;
+        $this->department = $department;
+        $this->groupnumber = $groupnumber;
+    }
+
+    /**
+     * @return mixed $id
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * @param mixed $email
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFirstname()
+    {
+        return $this->firstname;
+    }
+
+    /**
+     * @param mixed $firstname
+     */
+    public function setFirstname($firstname)
+    {
+        $this->firstname = $firstname;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLastname()
+    {
+        return $this->lastname;
+    }
+
+    /**
+     * @param mixed $lastname
+     */
+    public function setLastname($lastname)
+    {
+        $this->lastname = $lastname;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOrganization()
+    {
+        return $this->organization;
+    }
+
+    /**
+     * @param mixed $organization
+     */
+    public function setOrganization($organization)
+    {
+        $this->organization = $organization;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDepartment()
+    {
+        return $this->department;
+    }
+
+    /**
+     * @param mixed $department
+     */
+    public function setDepartment($department)
+    {
+        $this->department = $department;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getGroupnumber()
+    {
+        return $this->groupnumber;
+    }
+
+    /**
+     * @param mixed $groupnumber
+     */
+    public function setGroupnumber($groupnumber)
+    {
+        $this->groupnumber = $groupnumber;
+    }
+
+}
