@@ -46,6 +46,12 @@ class MysqlVolunteerRepository implements VolunteerRepository
      */
     public function add(Volunteer $volunteer)
     {
+        //not sure if this return value is correct but the check needs to be done.
+        $varcheck = $this->findByEmail($volunteer->getEmail());
+        if(count($varcheck) > 0){
+            return 0;
+        }
+
         $currentTime = Date('Y-m-d H:i:s');
         $data = [$volunteer->getEmail(), $volunteer->getFirstname(), $volunteer->getLastname(),
         $volunteer->getOrganization(), $volunteer->getDepartment(), $volunteer->getGroupnumber(),$currentTime,$currentTime];
@@ -95,7 +101,7 @@ class MysqlVolunteerRepository implements VolunteerRepository
             $stm = $this->driver->prepare(
                 'SELECT * FROM volunteers'
             );
-            //TODO: check to see if we can make this more eloquent
+
             $stm->execute();
             $data = $stm->fetchAll();
         } catch (\PDOException $e) {
@@ -116,7 +122,9 @@ class MysqlVolunteerRepository implements VolunteerRepository
         $data = null;
 
         try {
-            $data = $this->driver->prepare('SELECT * FROM volunteers WHERE email = $fragment')->fetchAll();
+            $statement = $this->driver->prepare('SELECT * FROM volunteers WHERE email = ?');
+            $statement->execute([$fragment]);
+            $data = $statement->fetchAll();
         }catch(\PDOException $e)
         {
             if($e->getCode() === 1062)
@@ -134,9 +142,10 @@ class MysqlVolunteerRepository implements VolunteerRepository
     public function findById(StringLiteral $id)
     {
         $data = null;
-
         try {
-            $data = $this->driver->prepare('SELECT * FROM volunteers WHERE volunteer_id = $id')->fetchAll();
+            $statement = $this->driver->prepare('SELECT * FROM volunteers WHERE id = ?');
+            $statement->execute([$id]);
+            $data = $statement->fetchAll();
         }catch(\PDOException $e)
         {
             if($e->getCode() === 1062)
@@ -149,6 +158,7 @@ class MysqlVolunteerRepository implements VolunteerRepository
     }
 
     /**
+     * TODO: this needs to be addressed for sure I believe this was used to sync reddis and mysql
      * @return bool
      */
     public function save()
