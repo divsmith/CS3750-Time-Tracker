@@ -1,0 +1,31 @@
+.formstyle
+{
+    background-color:#00b3b3;
+    border-radius:4px;
+    padding:10px;
+    color:white;
+}
+.shadowfloat
+{
+    box-shadow: 4px 12px 15px rgba(0, 0, 0, 0.5);
+
+}
+.dropBoxText
+{
+    color:black;
+}
+.dropBoxWhite
+{
+    color:white;
+}
+.teal_text{
+    color:#00b3b3;
+}
+.light_shadow{
+    box-shadow: 4px 10px 10px #aaaaaa;
+
+}
+span::before{
+    font-size:200px;
+
+}
