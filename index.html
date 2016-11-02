@@ -30,7 +30,7 @@
         <script src="js/libs/sugar.js"></script>
         <script src="js/libs/jquery.validate.js"></script>
     </head>
-    <body>
+    <body onload="loadMain()">
         <!--[if lt IE 8]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
@@ -48,12 +48,12 @@
         <div id="navbar" class="navbar-collapse collapse">
           <form id="adminSigninForm" class="navbar-form navbar-right" role="form" novalidate>
             <div class="form-group">
-                <input type="email" id="adminEmail" placeholder="Email" class="form-control" required>
+                <input type="email" id="adminEmail" placeholder="Email" class="form-control" required value="test@test.com" />
             </div>
             <div class="form-group">
-                <input type="password" placeholder="Password" class="form-control" minlength="3" required>
+                <input id="adminPwd" type="password" placeholder="Password" class="form-control" minlength="3" required value="1234" />
             </div>
-            <a class="btn btn-success" href="#" role="button" onclick="sweetTest();">Sign in</a>
+            <a class="btn btn-success" href="#" role="button" id="loginAdmin">Sign in</a>
           </form>
         </div><!--/.navbar-collapse -->
       </div>

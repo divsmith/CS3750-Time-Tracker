@@ -5,6 +5,9 @@ Click here to learn more. http://go.microsoft.com/fwlink/?LinkId=518007
 
 var gulp = require('gulp');
 var watch = require('gulp-watch');
+var webserver = require('gulp-webserver');
+var php = require('gulp-connect-php');
+var browserSync = require('browser-sync');
 
 var destination = '/wamp/www';
 
@@ -58,4 +61,18 @@ gulp.task('start-all', ['CSSdependencies', 'JSdependencies', 'css', 'js', 'fonts
     gulp.start('js');
     gulp.start('fonts');
     gulp.start('html');
+});
+
+gulp.task('webserver', function () {
+    gulp.src('./')
+      .pipe(webserver({
+          livereload: true,
+          open: true,
+          fallback: 'index.html',
+          port: 8080
+      }));
+});
+
+gulp.task('php', function () {
+    php.server({ port: 8010, keepalive: true, open: true });
 });
