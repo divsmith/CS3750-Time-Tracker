@@ -43,6 +43,7 @@ class MysqlVolunteerRepository implements VolunteerRepository
      * @param \RoadHome\Domain\Volunteer $volunteer
      * @return $this
      * @throws \PDOException
+     * @modified 11/3/2016 by Mark Richardson (changed the values to reflect the DB changes)
      */
     public function add(Volunteer $volunteer)
     {
@@ -54,12 +55,12 @@ class MysqlVolunteerRepository implements VolunteerRepository
 
         $currentTime = Date('Y-m-d H:i:s');
         $data = [$volunteer->getEmail(), $volunteer->getFirstname(), $volunteer->getLastname(),
-        $volunteer->getOrganization(), $volunteer->getDepartment(), $volunteer->getGroupnumber(),$currentTime,$currentTime];
+        $volunteer->getOrganization(), $volunteer->getDepartment(), $volunteer->getGroupnumber(),$currentTime,null,$volunteer->getlocation()];
 
         try {
             $this->driver->prepare(
-                'INSERT INTO volunteers(email, first_name, last_name, organization, department, group_number,created_at,updated_at) 
-                  VALUES (?,?,?,?,?,?,?,?)'
+                'INSERT INTO volunteers(email, firstname, lastname, organization, department, groupnumber,login,logout,location) 
+                  VALUES (?,?,?,?,?,?,?,?,?)'
             )->execute($data);
         } catch (\PDOException $e) {
             if ($e->getCode() === 1062) {
@@ -168,20 +169,19 @@ class MysqlVolunteerRepository implements VolunteerRepository
 
     /**
      * @param \RoadHome\Domain\Volunteer $volunteer
+     * @modified 11/3/2016 by Mark Richardson (changed this function so update will logout)
+     * @afterModification NOT TESTED
      * @return $this
      */
 
     public function update(Volunteer $volunteer)
     {
         $currentTime = Date('Y-m-d H:i:s');
-        $data = [$volunteer->getEmail(), $volunteer->getFirstname(), $volunteer->getLastname(),
-            $volunteer->getOrganization(), $volunteer->getDepartment(), $volunteer->getGroupnumber(),
-            $currentTime,$volunteer->getEmail()];
+        $data = [$currentTime,$volunteer->getEmail(), null];
 
         try {
             $this->driver->prepare(
-                'UPDATE FROM volunteers SET email = ?, first_name = ?, last_name = ?, organization = ?,
-                department = ?, group_number = ?, updated_at = ? WHERE email = ?'
+                'UPDATE FROM volunteers SET logout = ? WHERE email = ? AND logout = ?'
             )->execute($data);
         } catch (\PDOException $e) {
             if ($e->getCode() === 1062) {

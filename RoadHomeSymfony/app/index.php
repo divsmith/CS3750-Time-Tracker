@@ -11,17 +11,18 @@
  * $LastChangedDate$ 10/22/2016
  * $LastChangedBy$   Mark Richardson
  */
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: POST, GET, PUT, DELETE, OPTIONS');
+
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Pimple\Container;
 use RoadHome\Infrastructure\MysqlVolunteerRepository;
 use RoadHome\Domain\StringLiteral;
-use RoadHome\Domain\ValueObject;
 use RoadHome\Domain\Volunteer;
 use RoadHome\Infrastructure\MysqlLoginsRepository;
 
 require_once __DIR__ . '/../vendor/autoload.php';
-
 
 $dic = bootstrap();
 $app = $dic['app'];
@@ -62,13 +63,37 @@ $app->get('/', function () {
 //    return $response;
 //});
 
-$app->get('/loginPage', function(Request $request) {
+$app->get('/loginPage', function(){
     //This route will be used to display the html
 
     $response = new Response();
     $response->setStatusCode(200);
-    $response->setContent(readfile("/home/kidlappy/PhpstormProjects/RoadHomeSymfony/login.html"));
+    $response->headers->set('Content-Type', 'text/html');
+    $response->setContent(file_get_contents("/home/kidlappy/PhpstormProjects/RoadHomeSymfony/login.html"));
     return $response;
+});
+/**
+ * gets the login css
+ */
+$app->get('/css/login', function(){
+    $response = new Response();
+    $response->setStatusCode(200);
+    $response->headers->set('Content-Type', 'text/css');
+    $response->setContent(file_get_contents("/home/kidlappy/PhpstormProjects/RoadHomeSymfony/public/stylesheets/login.css"));
+    return $response;
+
+});
+
+/**
+ * gets the login javascript
+ */
+$app->get('/javascript/login', function(){
+    $response = new Response();
+    $response->setStatusCode(200);
+    $response->headers->set('Content-Type', 'application/javascript');
+    $response->setContent(file_get_contents("/home/kidlappy/PhpstormProjects/RoadHomeSymfony/public/js/loginJSON.js"));
+    return $response;
+
 });
 
 /**
@@ -102,6 +127,7 @@ $app->get('/volunteers', function(Request $request) use($mysqlrepo) {
  */
 $app->get('/volunteers/{id}', function(Request $request,$id) use ($mysqlrepo) {
 
+
     if($request->getContent() !== '')
     {
         $response = new Response();
@@ -128,6 +154,9 @@ $app->get('/volunteers/{id}', function(Request $request,$id) use ($mysqlrepo) {
  */
 $app->post('/volunteers', function (Request $request) use ($mysqlrepo){
 
+    var_dump($request->getContent());
+
+
     if($request->getMethod() != 'POST'){
         $response = new Response();
         $response->setStatusCode(204);
@@ -140,9 +169,11 @@ $app->post('/volunteers', function (Request $request) use ($mysqlrepo){
         return $response;
     }
 
+ //   $content = volunteerSanitation($request);
+
     $content = $request->getContent();
 
-    if($content === '')
+    if($content == '')
     {
         $response = new Response();
         $response->setStatusCode(204);
@@ -153,16 +184,18 @@ $app->post('/volunteers', function (Request $request) use ($mysqlrepo){
 
     $volunteer = new Volunteer(new StringLiteral($jsonArray["email"]),new StringLiteral($jsonArray["firstname"]),
         new StringLiteral($jsonArray["lastname"]), new StringLiteral($jsonArray["organization"]), new StringLiteral($jsonArray["department"]),
-        new StringLiteral($jsonArray["groupnumber"]));
+        new StringLiteral($jsonArray["groupnumber"]), new StringLiteral($jsonArray["location"]));
 
     $alreadyExists = $mysqlrepo->add($volunteer);
 
+    /**
+     * Mysql will return a 0 if the email is already in use.
+     */
     if($alreadyExists === 0){
         $response = new Response();
         $response->setStatusCode(500);
         return $response;
     }
-
     //TODO: send user to end point for login/logout
 
     $response = new Response();
@@ -173,8 +206,9 @@ $app->post('/volunteers', function (Request $request) use ($mysqlrepo){
 //TODO: not sure we need to have an update function for this application
 /**
  * Not tested
+ * @modified 11/3/2016 by Mark Richardson (added the location StringLiteral location for revised DB)
  */
-$app->put('/volunteers/{id}', function (Request $request) use ($mysqlrepo) {
+$app->put('/volunteers', function (Request $request) use ($mysqlrepo) {
 
     if($request->getMethod() != 'PUT'){
 
@@ -202,7 +236,7 @@ $app->put('/volunteers/{id}', function (Request $request) use ($mysqlrepo) {
 
     $volunteer = new Volunteer(new StringLiteral($jsonArray["email"]),new StringLiteral($jsonArray["firstname"]),
         new StringLiteral($jsonArray["lastname"]), new StringLiteral($jsonArray["organization"]), new StringLiteral($jsonArray["department"]),
-        new StringLiteral($jsonArray["groupnumber"]));
+        new StringLiteral($jsonArray["groupnumber"]), new StringLiteral($jsonArray["location"]));
 
     $alreadyExists = $mysqlrepo->add($volunteer);
 
@@ -220,140 +254,147 @@ $app->put('/volunteers/{id}', function (Request $request) use ($mysqlrepo) {
 });
 
 /**
- * Created 10-22-2016
- * Simple implementation(No real logic, NOT TESTED)
+ * @modified 11/3/2016 by Mark Richardson (The login table is no longer used or supported)
+ * ALL COMMENTED OUT CODE BELOW HAS BEEN DEPRECATED THE LOGIN TABLE IS NO LONGER USED
  */
-$app->get('/logins', function (Request $request) use($mysqllogin){
-
-    if($request->getContent() !== '')
-    {
-        $response = new Response();
-        $response->setStatusCode(400);
-        return $response;
-    }
-
-    $data = $mysqllogin->findAll();
-    $jsonData = json_encode($data, true);
-
-    $response = new Response();
-    $response->setStatusCode(200);
-    $response->setContent($jsonData);
-    return $response;
-});
-
-/**
- * Created 10-22-2016
- * Simple implementation(No real logic, NOT TESTED)
- */
-$app->get('/logins/{id}', function (Request $request, $id) use($mysqllogin){
-
-    if($request->getContent() !== '')
-    {
-        $response = new Response();
-        $response->setStatusCode(400);
-        return $response;
-    }
-
-    $intToStrLit = new StringLiteral($id);
-
-    $data = $mysqllogin->findById($intToStrLit);
-    $jsonData = json_encode($data, true);
-
-    $response = new Response();
-    $response->setStatusCode(200);
-    $response->setContent($jsonData);
-    return $response;
-});
-
-/**
- * Created 10-22-2016
- * Simple implementation(NOT TESTED)
- * Does not consider logging out just logging in
- */
-$app->post('/logins', function (Request $request) use($mysqlrepo, $mysqllogin){
-
-    if($request->getMethod() != 'POST'){
-        $response = new Response();
-        $response->setStatusCode(204);
-        return $response;
-    }
-
-    if(0 !== strpos($request->headers->get('Content-Type'), 'application/json')){
-        $response = new Response();
-        $response->setStatusCode(400);
-        return $response;
-    }
-
-    $content = $request->getContent();
-
-    if($content === ''){
-        $response = new Response();
-        $response->setStatusCode(400);
-        return $response;
-    }
-
-    $data = json_decode($content, true);
-    $email = new StringLiteral($data["email"]);
-    $volunteer_record = $mysqlrepo->findByEmail($email);
-    $id = new StringLiteral($volunteer_record["id"]);
-
-    $mysqllogin->add($email, $id);
-
-    $response = new Response();
-    $response->setStatusCode(201);
-    return $response;
-
-});
-
-/**
- * Created 10-22-2016
- * Simple implementation(No real logic, NOT TESTED)
- */
-$app->put('/logins/{id}', function (Request $request, $id) use($mysqllogin, $mysqlrepo){
-
-    //TODO: this may be used think of how the admins will get the ID they need to update
-    //TODO: this could be provided via the volunteers get endpoint(all volunteers)
-
-    if(0 !== strpos($request->headers->get('Content-Type'), 'application/json')){
-        $response = new Response();
-        $response->setStatusCode(400);
-        return $response;
-    }
-
-    $content = $request->getContent();
-
-    if($content === ''){
-        $response = new Response();
-        $response->setStatusCode(400);
-        return $response;
-    }
-
-    //TODO: This will break if a valid id from volunteers table doesn't exist.(foreign key volunteer_id in logins table)
-
-    $volunteer = $mysqlrepo->findById(new StringLiteral($id));
-    var_dump($volunteer);
-
-    if(count($volunteer) === 0){
-        $response = new Response();
-        $response->setStatusCode(500);
-        $response->setContent("An Error with the DB has occurred");
-        return $response;
-    }
-
-    $mysqllogin->add(new StringLiteral('email@email.com'),new StringLiteral($volunteer['id']));
-
-
-    $response = new Response();
-    $response->setStatusCode(202);
-    return $response;
-
-});
+//
+///**
+// * Created 10-22-2016
+// * Simple implementation(No real logic, NOT TESTED)
+// */
+//$app->get('/logins', function (Request $request) use($mysqllogin){
+//
+//    if($request->getContent() !== '')
+//    {
+//        $response = new Response();
+//        $response->setStatusCode(400);
+//        return $response;
+//    }
+//
+//    $data = $mysqllogin->findAll();
+//    $jsonData = json_encode($data, true);
+//
+//    $response = new Response();
+//    $response->setStatusCode(200);
+//    $response->setContent($jsonData);
+//    return $response;
+//});
+//
+///**
+// * Created 10-22-2016
+// * Simple implementation(No real logic, NOT TESTED)
+// */
+//$app->get('/logins/{id}', function (Request $request, $id) use($mysqllogin){
+//
+//    if($request->getContent() !== '')
+//    {
+//        $response = new Response();
+//        $response->setStatusCode(400);
+//        return $response;
+//    }
+//
+//    $intToStrLit = new StringLiteral($id);
+//
+//    $data = $mysqllogin->findById($intToStrLit);
+//    $jsonData = json_encode($data, true);
+//
+//    $response = new Response();
+//    $response->setStatusCode(200);
+//    $response->setContent($jsonData);
+//    return $response;
+//});
+//
+///**
+// * Created 10-22-2016
+// * Simple implementation(NOT TESTED)
+// * Does not consider logging out just logging in
+// */
+//$app->post('/logins', function (Request $request) use($mysqlrepo, $mysqllogin){
+//
+//    if($request->getMethod() != 'POST'){
+//        $response = new Response();
+//        $response->setStatusCode(204);
+//        return $response;
+//    }
+//
+//    if(0 !== strpos($request->headers->get('Content-Type'), 'application/json')){
+//        $response = new Response();
+//        $response->setStatusCode(400);
+//        return $response;
+//    }
+//
+//    $content = $request->getContent();
+//
+//    if($content === ''){
+//        $response = new Response();
+//        $response->setStatusCode(400);
+//        return $response;
+//    }
+//
+//    $data = json_decode($content, true);
+//    $email = new StringLiteral($data["email"]);
+//    $volunteer_record = $mysqlrepo->findByEmail($email);
+//    $id = new StringLiteral($volunteer_record["id"]);
+//
+//    $mysqllogin->add($email, $id);
+//
+//    $response = new Response();
+//    $response->setStatusCode(201);
+//    return $response;
+//
+//});
+//
+///**
+// * Created 10-22-2016
+// * Simple implementation(No real logic, NOT TESTED)
+// */
+//$app->put('/logins/{id}', function (Request $request, $id) use($mysqllogin, $mysqlrepo){
+//
+//    //TODO: this may be used think of how the admins will get the ID they need to update
+//    //TODO: this could be provided via the volunteers get endpoint(all volunteers)
+//
+//    if(0 !== strpos($request->headers->get('Content-Type'), 'application/json')){
+//        $response = new Response();
+//        $response->setStatusCode(400);
+//        return $response;
+//    }
+//
+//    $content = $request->getContent();
+//
+//    if($content === ''){
+//        $response = new Response();
+//        $response->setStatusCode(400);
+//        return $response;
+//    }
+//
+//    //TODO: This will break if a valid id from volunteers table doesn't exist.(foreign key volunteer_id in logins table)
+//
+//    $volunteer = $mysqlrepo->findById(new StringLiteral($id));
+//    var_dump($volunteer);
+//
+//    if(count($volunteer) === 0){
+//        $response = new Response();
+//        $response->setStatusCode(500);
+//        $response->setContent("An Error with the DB has occurred");
+//        return $response;
+//    }
+//
+//    $mysqllogin->add(new StringLiteral('email@email.com'),new StringLiteral($volunteer['id']));
+//
+//
+//    $response = new Response();
+//    $response->setStatusCode(202);
+//    return $response;
+//
+//});
 
 
 $app->run();
 
 /**
- * Function that will sanitize all input data from forms
+ * Function that will sanitize all volunteer input data from forms
+ * (NOT TESTED)
+ * Created: 10-30-2016
  * @param Request $request
  * @return array
  */
@@ -374,6 +415,13 @@ function volunteerSanitation(Request $request) {
     return $responseData;
 }
 
+/**
+ * Function that will sanitize all login input data from forms
+ * (NOT TESTED)
+ * Created: 10-30-2016
+ * @param Request $request
+ * @return array
+ */
 function loginSanitation(Request $request){
 
     $content = $request->getContent();
@@ -383,7 +431,6 @@ function loginSanitation(Request $request){
 
     return $cleanEmail;
 }
-
 
 
 function bootstrap()
@@ -415,12 +462,6 @@ function bootstrap()
             echo "Connection failed: " . $e->getMessage();
         }
         return $conn;
-    };
-
-    $pdo = $dic['db-driver'];
-
-    $dic['repo-mysql'] = function() use ($pdo) {
-        return new MysqlVolunteerRepository($pdo);
     };
 
     return $dic;

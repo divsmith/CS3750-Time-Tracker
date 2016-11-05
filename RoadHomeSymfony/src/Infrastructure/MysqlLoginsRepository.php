@@ -8,6 +8,9 @@
 
 namespace RoadHome\Infrastructure;
 
+/**
+ * THIS CLASS HAS BEEN DEPRECATED AND IS NO LONGER USED
+ */
 
 use RoadHome\Domain\Date;
 use RoadHome\Domain\LoginRepository;

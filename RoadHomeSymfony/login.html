@@ -1,78 +1,83 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8">
-    <title>Road Home logger</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" media="screen" title="no title">
-    <link rel="icon" href="http://eccles.utah.edu/sorenson-impact-center//wp-content/uploads/2016/05/the-road-home.gif" media="screen" title="no title">
-    <link rel="stylesheet" type="text/css" href="/stylesheets/login.css" >
-</head>
-<body>
+    <head>
+        <meta charset="utf-8">
+        <title>Road Home logger</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" type="text/css">
+        <link rel="icon" href="http://eccles.utah.edu/sorenson-impact-center//wp-content/uploads/2016/05/the-road-home.gif">
+        <link rel="stylesheet" type="text/css" href="/css/login" >
+    </head>
 
-<nav class="navbar navbar-default light_shadow teal_text">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#">Road Home Voluteer Login</a>
+    <body>
+
+        <nav class="navbar navbar-default light_shadow teal_text teal_nav " >
+            <div class="container-fluid">
+                <div class="navbar-header right_border_tick">
+                    <a class="navbar-brand" href="#" style="color:white;">Road Home Volunteer Login</a>
+                </div>
+                <ul class="nav navbar-nav">
+                    <li class="active_tab"><a href="#" style="color:white;">Register</a></li>
+                    <li class=" right_border_tick"><a href="#" style="color:white;">Login</a></li>
+                    <li class=" right_border_tick"><a href="#" style="color:white;">Logout</a></li>
+
+                </ul>
+            </div>
+        </nav>
+
+        <div id="topDiv" class=""></div><!--Top spacer -->
+
+        <div id="formDiv" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+            <div class="col-lg-3 col-md-3"></div><!--Left spacer block only for large and medium screens-->
+
+            <form id="volunteerForm"class="col-lg-6 col-md-6 col-sm-12 col-xs-12 formstyle shadowfloat">
+
+                <div class="form-group">
+                    <label for="email" onclick="getAlert()">Email:</label>
+                    <input type="text" name="email" class="form-control" id="email">
+                </div>
+
+                <!--Only display this if the username doesn't exist -->
+                <div class="form-group">
+                    <label for="firstname">First Name:</label>
+                    <input name="firstname" type="text" class="form-control" id="firstname">
+                </div>
+
+                <div class="form-group">
+                    <label for="lastname">Last Name:</label>
+                    <input name="lastname" type="text" class="form-control" id="lastname">
+                </div>
+
+                <div class="form-group">
+                    <label for="organization">Organization:</label>
+                    <input name="organization" type="text" class="form-control" id="organization">
+                </div>
+
+                <div class="form-group">
+                    <label for="groupnumber">Group Number:</label>
+                    <input name="groupnumber" type="text" class="form-control" id="groupnumber">
+                </div>
+
+                <!--<div class="form-group dropBoxText">-->
+                    <!--<label class=" white_text">Department:</label><br>&emsp;&emsp;-->
+                    <!--<label class="radio-inline white_text"><input type="radio" name="department" value="deparment1">Department 1</label>-->
+                    <!--<label class="radio-inline white_text"><input type="radio" name="department" value="deparment2">Department 2</label>-->
+                    <!--<label class="radio-inline white_text"><input type="radio" name="department" value="deparment3">Department 3</label>-->
+                    <!--<label class="radio-inline white_text"><input type="radio" name="department" value="deparment4">Department 4</label>-->
+                    <!--<label class="radio-inline white_text"><input type="radio" name="department" value="deparment5">Department 5</label>-->
+                <!--</div>-->
+
+            </form>
+            <button id="submitButton" class="btn btn-default">Register</button>
+
+
+
+
+
         </div>
-        <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="#">Employees</a></li>
 
-        </ul>
-    </div>
-</nav>
-
-<div id="topDiv" class="" >
-
-</div>
-
-<div id="formDiv" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-    <div class="col-lg-3 col-md-3 col-sm-0 col-xs-0">
-
-    </div>
-    <form  class="col-lg-6 col-md-6 col-sm-12 col-xs-12 formstyle shadowfloat" action="/api/users" method="POST" >
-        <div class="form-group">
-            <label for="username">Username:</label>
-            <input type="text" name="username" class="form-control" id="username">
-
-        </div>
-        <!--Only display this if the username doesn't exist -->
-        <div class="form-group">
-            <label for="firstname">First Name:</label>
-            <input name="firstname"type="text" class="form-control" id="firstname">
-        </div>
-        <div class="form-group">
-            <label for="lastname">Last Name:</label>
-            <input name="lastname" type="text" class="form-control" id="lastname">
-        </div>
-        <div class="form-group">
-            <label for="organization">Organization:</label>
-            <input name="organization" type="text" class="form-control" id="organization">
-        </div>
-        <div class="form-group dropBoxText">
-            <label for="department" class="dropBoxWhite">Department:</label>
-            <select name="department" id="department">
-                <option value="dep1">department1</option>
-                <option value="dep2">department2</option>
-                <option value="dep3">department3</option>
-                <option value="dep4">department4</option>
-                <option value="dep5">department5</option>
-            </select>
-        </div>
-        <div class="checkbox">
-            <label><input type="checkbox"> Email hours to me </label>
-        </div>
-        <button type="submit" class="btn btn-default">Login</button>
-    </form>
-    <!--After 'registering' set active state to true, the next 'login' will set the active state to false then we will
-      record the time worked, and send an email to the username -->
-    <!--do we want to validate the email address? -->
-    <!--If the login is active -->
-</div>
-
-<script rel="script" type="javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js">
-</script>
-<script rel="script" type="javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<!--<script rel="script" type="javascript" src="/javascripts/postJS.js"></script>-->
-</body>
+        <script rel="script" type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script rel="script" type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script rel="script" type="text/javascript" src="/javascript/login"></script>
+    </body>
 </html>

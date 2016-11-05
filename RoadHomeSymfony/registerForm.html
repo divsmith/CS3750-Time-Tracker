@@ -1,0 +1,44 @@
+<div id="formDiv" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+    <div class="col-lg-3 col-md-3"></div><!--Left spacer block only for large and medium screens-->
+
+    <form  class="col-lg-6 col-md-6 col-sm-12 col-xs-12 formstyle shadowfloat" action="/volunteers" method="POST" >
+        <div class="form-group">
+            <label for="username">Email:</label>
+            <input type="email" name="username" class="form-control" id="username">
+        </div>
+
+        <!--Only display this if the username doesn't exist -->
+        <div class="form-group">
+            <label for="firstname">First Name:</label>
+            <input name="firstname" type="text" class="form-control" id="firstname">
+        </div>
+
+        <div class="form-group">
+            <label for="lastname">Last Name:</label>
+            <input name="lastname" type="text" class="form-control" id="lastname">
+        </div>
+
+        <div class="form-group">
+            <label for="organization">Organization:</label>
+            <input name="organization" type="text" class="form-control" id="organization">
+        </div>
+
+        <div class="form-group">
+            <label for="groupnumber">Group Number:</label>
+            <input name="groupnumber" type="number" class="form-control" id="groupnumber">
+        </div>
+
+        <div class="form-group dropBoxText">
+            <label class=" white_text">Department:</label><br>&emsp;&emsp;
+            <label class="radio-inline white_text"><input type="radio" name="department">Department 1</label>
+            <label class="radio-inline white_text"><input type="radio" name="department">Department 2</label>
+            <label class="radio-inline white_text"><input type="radio" name="department">Department 3</label>
+            <label class="radio-inline white_text"><input type="radio" name="department">Department 4</label>
+            <label class="radio-inline white_text"><input type="radio" name="department">Department 5</label>
+        </div>
+
+        <button type="submit" class="btn btn-default">Register</button>
+    </form>
+
+</div>

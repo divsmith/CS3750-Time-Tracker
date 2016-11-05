@@ -5,6 +5,7 @@
  * User: kidlappy
  * Date: 10/18/16
  * Time: 11:12 PM
+ * @modified 11/3/2016 by Mark Richardson (added the location field and getter/setter)
  */
 namespace RoadHome\Domain;
 
@@ -44,6 +45,10 @@ class Volunteer
      * @var StringLiteral $groupnumber
      */
     protected $groupnumber;
+    /**
+     * @var StringLiteral $location
+     */
+    protected $location;
 
     public function __Construct(
         StringLiteral $email,
@@ -51,7 +56,8 @@ class Volunteer
         StringLiteral $lastname,
         StringLiteral $organization,
         StringLiteral $department,
-        StringLiteral $groupnumber
+        StringLiteral $groupnumber,
+        StringLiteral $lcoation
 
     ){
         $this->email = $email;
@@ -60,6 +66,7 @@ class Volunteer
         $this->organization = $organization;
         $this->department = $department;
         $this->groupnumber = $groupnumber;
+        $this->location = $lcoation;
     }
 
     /**
@@ -172,6 +179,22 @@ class Volunteer
     public function setGroupnumber($groupnumber)
     {
         $this->groupnumber = $groupnumber;
+    }
+
+    /**
+     * @return $location
+     */
+    public function getLocation()
+    {
+        return $this->location;
+    }
+
+    /**
+     * @param StringLiteral $location
+     */
+    public function setLocation(StringLiteral $location)
+    {
+        $this->location = $location;
     }
 
 }
