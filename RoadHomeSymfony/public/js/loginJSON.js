@@ -24,7 +24,7 @@ $(document).ready(function(){
         ({
             type: "POST",
             //the url where you want to sent the userName and password to
-            url: 'localhost:8000/volunteers',
+            url: 'http://localhost:8000/volunteers',
             crossDomain: true,
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',

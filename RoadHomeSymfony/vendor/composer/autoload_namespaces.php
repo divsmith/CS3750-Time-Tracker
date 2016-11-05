@@ -17,6 +17,8 @@ return array(
     'Herrera\\Version' => array($vendorDir . '/herrera-io/version/src/lib'),
     'Herrera\\Phar\\Update' => array($vendorDir . '/herrera-io/phar-update/src/lib'),
     'Herrera\\Json' => array($vendorDir . '/herrera-io/json/src/lib'),
+    'Google_Service_' => array($vendorDir . '/google/apiclient-services/src'),
+    'Google_' => array($vendorDir . '/google/apiclient/src'),
     'FSHL' => array($vendorDir . '/kukulich/fshl'),
     'Evenement' => array($vendorDir . '/evenement/evenement/src'),
 );

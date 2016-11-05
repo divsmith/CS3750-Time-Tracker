@@ -11,8 +11,11 @@
  * $LastChangedDate$ 10/22/2016
  * $LastChangedBy$   Mark Richardson
  */
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: POST, GET, PUT, DELETE, OPTIONS');
+
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Credentials: true ");
+header("Access-Control-Allow-Methods: OPTIONS, GET, POST");
+header("Access-Control-Allow-Headers: Content-Type, Depth, User-Agent, X-File-Size, X-Requested-With, If-Modified-Since, X-File-Name, Cache-Control");
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -97,6 +100,18 @@ $app->get('/javascript/login', function(){
 });
 
 /**
+ * gets the jquery javascript
+ */
+$app->get('/javascript/jquery',function(){
+    $response = new Response();
+    $response->setStatusCode(200);
+    $response->headers->set('Content-Type', 'application/javascript');
+    $response->setContent(file_get_contents("/home/kidlappy/PhpstormProjects/RoadHomeSymfony/public/js/jquery-3.1.1.min.js"));
+    return $response;
+
+});
+
+/**
  * Select all volunteer records
  * --Working(tested with PostMan)-- 10-22-2016
  * --preliminary criteria checks(NOT TESTED) 10-22-2016
@@ -156,7 +171,6 @@ $app->post('/volunteers', function (Request $request) use ($mysqlrepo){
 
     var_dump($request->getContent());
 
-
     if($request->getMethod() != 'POST'){
         $response = new Response();
         $response->setStatusCode(204);
@@ -184,7 +198,7 @@ $app->post('/volunteers', function (Request $request) use ($mysqlrepo){
 
     $volunteer = new Volunteer(new StringLiteral($jsonArray["email"]),new StringLiteral($jsonArray["firstname"]),
         new StringLiteral($jsonArray["lastname"]), new StringLiteral($jsonArray["organization"]), new StringLiteral($jsonArray["department"]),
-        new StringLiteral($jsonArray["groupnumber"]), new StringLiteral($jsonArray["location"]));
+        new StringLiteral($jsonArray["groupnumber"]), new StringLiteral("Location")); //replace the location field when the form is done.
 
     $alreadyExists = $mysqlrepo->add($volunteer);
 
