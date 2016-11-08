@@ -30,122 +30,130 @@
         <script src="js/libs/sugar.js"></script>
         <script src="js/libs/jquery.validate.js"></script>
     </head>
-    <body onload="loadMain()">
-        <!--[if lt IE 8]>
-            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
-    <nav class="navbar navbar-default navbar-fixed-top light_shadow teal_text" role="navigation">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">The Road Home</a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <form id="adminSigninForm" class="navbar-form navbar-right" role="form" novalidate>
-            <div class="form-group">
-                <input type="email" id="adminEmail" placeholder="Email" class="form-control" required value="test@test.com" />
-            </div>
-            <div class="form-group">
-                <input id="adminPwd" type="password" placeholder="Password" class="form-control" minlength="3" required value="1234" />
-            </div>
-            <a class="btn btn-success" href="#" role="button" id="loginAdmin">Sign in</a>
-          </form>
-        </div><!--/.navbar-collapse -->
-      </div>
-    </nav>
+                       <body onload="loadMain()">
+                           <!--[if lt IE 8]>
+        <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+                           <nav class="navbar navbar-default navbar-fixed-top light_shadow teal_text" role="navigation">
+                               <div class="container">
+                                   <div class="navbar-header">
+                                       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                                           <span class="sr-only">Toggle navigation</span>
+                                           <span class="icon-bar"></span>
+                                           <span class="icon-bar"></span>
+                                           <span class="icon-bar"></span>
+                                       </button>
+                                       <a class="navbar-brand" href="#">
+                                           <span class="brand-image"><img alt="Brand" src="img/icn_ribbon.png"></span>
+                                           <label>The Road Home</label>
+                                       </a>
+                                   </div>
+                                   <div id="navbar" class="navbar-collapse collapse">
+                                       <form id="adminSigninForm" class="navbar-form navbar-right" role="form" novalidate>
+                                           <div class="form-group">
+                                               <input type="email" id="adminEmail" placeholder="Email" class="form-control" required value="test@test.com" />
+                                           </div>
+                                           <div class="form-group">
+                                               <input id="adminPwd" type="password" placeholder="Password" class="form-control" minlength="3" required value="1234" />
+                                           </div>
+                                           <a class="btn btn-success" href="#" role="button" id="loginAdmin">Sign in</a>
+                                       </form>
+                                   </div><!--/.navbar-collapse -->
+                               </div>
+                           </nav>
 
-    <!-- Main jumbotron for a primary marketing message or call to action -->
-    <div class="jumbotron">
-      <div class="container text-center">
-        <h1 id="homeCurrentTime"></h1>
-        <h2 id="homeCurrentDate"></h2>
-      </div>
-    </div>
+                           <!-- Main jumbotron for a primary marketing message or call to action -->
+                           <div class="jumbotron container">
+                               <div class="row text-center">
+                                   <div class="col-sm-1">
+                                       <img src="img/logo.png" />
+                                   </div>
+                                   <div class="col-sm-11">
+                                       <h1 id="homeCurrentTime"></h1>
+                                       <h2 id="homeCurrentDate"></h2>
+                                   </div>
+                               </div>
+                           </div>
 
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-4"></div>
-            <div class="col-sm-4">
-                <form action="/api/users" method="POST">
-                    <div class="row">
-                        <div class="form-group">
-                            <label for="emailAddress">Email Address:</label>
-                            <input type="text" name="emailAddress" class="form-control" id="emailAddress">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <!--Only display this if the username doesn't exist -->
-                        <div class="form-group">
-                            <label for="firstname">First Name:</label>
-                            <input name="firstname" type="text" class="form-control" id="firstname">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group">
-                            <label for="lastname">Last Name:</label>
-                            <input name="lastname" type="text" class="form-control" id="lastname">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group">
-                            <label for="location">Location:</label>
-                            <select class="form-control" name="location" id="location">
-                                <option>Downtown</option>
-                                <option>Midvale</option>
-                                <option>Palmer Court</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group">
-                            <label for="department">Department:</label>
-                            <select class="form-control" name="department" id="department">
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group">
-                            <label for="groupCount">Group Size:</label>
-                            <select class="form-control" name="groupCount" id="groupCount">
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <!--After 'registering' set active state to true, the next 'login' will set the active state to false then we will
-                    record the time worked, and send an email to the username -->
-                        <!--do we want to validate the email address? -->
-                        <!--If the login is active -->
-                        <button type="submit" class="btn btn-default">Start Time</button>
-                    </div>
-                </form>
-            </div>
-            <div class="col-sm-4"></div>
-        </div>
-        <div class="row">
-            <hr />
-            <footer>
-                <p>&copy; Alpha Coders 2016</p>
-            </footer>
-        </div>
-    </div> <!-- /container -->
+                           <div class="container">
+                               <div class="row">
+                                   <div class="col-sm-4"></div>
+                                   <div class="col-sm-4">
+                                       <form action="/api/users" method="POST">
+                                           <div class="row">
+                                               <div class="form-group">
+                                                   <label for="emailAddress">Email Address:</label>
+                                                   <input type="text" name="emailAddress" class="form-control" id="emailAddress">
+                                               </div>
+                                           </div>
+                                           <div class="row">
+                                               <!--Only display this if the username doesn't exist -->
+                                               <div class="form-group">
+                                                   <label for="firstname">First Name:</label>
+                                                   <input name="firstname" type="text" class="form-control" id="firstname">
+                                               </div>
+                                           </div>
+                                           <div class="row">
+                                               <div class="form-group">
+                                                   <label for="lastname">Last Name:</label>
+                                                   <input name="lastname" type="text" class="form-control" id="lastname">
+                                               </div>
+                                           </div>
+                                           <div class="row">
+                                               <div class="form-group">
+                                                   <label for="location">Location:</label>
+                                                   <select class="form-control" name="location" id="location">
+                                                       <option>Downtown</option>
+                                                       <option>Midvale</option>
+                                                       <option>Palmer Court</option>
+                                                   </select>
+                                               </div>
+                                           </div>
+                                           <div class="row">
+                                               <div class="form-group">
+                                                   <label for="department">Department:</label>
+                                                   <select class="form-control" name="department" id="department"></select>
+                                               </div>
+                                           </div>
+                                           <div class="row">
+                                               <div class="form-group">
+                                                   <label for="groupCount">Group Size:</label>
+                                                   <select class="form-control" name="groupCount" id="groupCount"></select>
+                                               </div>
+                                           </div>
+                                           <div class="row">
+                                               <!--After 'registering' set active state to true, the next 'login' will set the active state to false then we will
+                        record the time worked, and send an email to the username -->
+                                               <!--do we want to validate the email address? -->
+                                               <!--If the login is active -->
+                                               <button type="submit" class="btn btn-success">Start Time</button>
+                                           </div>
+                                       </form>
+                                   </div>
+                                   <div class="col-sm-4"></div>
+                               </div>
+                           </div> <!-- /container -->
 
-        <script src="js/vendor/bootstrap.min.js"></script>
+                           <div class="footer">
+                               <footer>
+                                   <p>&copy; Alpha Coders 2016</p>
+                               </footer>
+                           </div>
 
-        <script src="js/main.js"></script>
+                           <script src="js/vendor/bootstrap.min.js"></script>
 
-        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
-        <script>
-            (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
-            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
-            e=o.createElement(i);r=o.getElementsByTagName(i)[0];
-            e.src='//www.google-analytics.com/analytics.js';
-            r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
-            ga('create','UA-XXXXX-X','auto');ga('send','pageview');
-        </script>
-    </body>
+                           <script src="js/main.js"></script>
+
+                           <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+                           <script>
+                               (function (b, o, i, l, e, r) {
+                                   b.GoogleAnalyticsObject = l; b[l] || (b[l] =
+                                   function () { (b[l].q = b[l].q || []).push(arguments) }); b[l].l = +new Date;
+                                   e = o.createElement(i); r = o.getElementsByTagName(i)[0];
+                                   e.src = '//www.google-analytics.com/analytics.js';
+                                   r.parentNode.insertBefore(e, r)
+                               }(window, document, 'script', 'ga'));
+                               ga('create', 'UA-XXXXX-X', 'auto'); ga('send', 'pageview');
+                           </script>
+                       </body>
 </html>
