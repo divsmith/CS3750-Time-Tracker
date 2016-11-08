@@ -60,6 +60,45 @@ function loadMain() {
             e.preventDefault();
             loginAdmin();
         });
+
+        // Time Entry - Dropdowns
+        var locationsDepartments = {
+            "Downtown": ["Front Desk", "Warehouse", "Dinner", "Kid's Activity", "Women's Activity", "Special Event"],
+            "Midvale": ["Warehouse", "Kid's Activity", "Dinner", "Book Club", "Playroom", "Preschool Playgroup", "Special Event"],
+            "Palmer Court": ["Study Night", "Book Club", "Special Event"]
+        };
+
+        function updateDepartment() {
+            // Clear existing options
+            $('#department').find('option').remove();
+
+            // Get current location.
+            var locationValue = $('#location').val();
+
+            // Populate locations
+            if (locationsDepartments[locationValue]) {
+                for (var i = 0; i < locationsDepartments[locationValue].length; i++) {
+                    $('#department').append('<option>' + locationsDepartments[locationValue][i] + '</option>');
+                }
+            }
+        }
+
+        $('body').on('change', $('#department'), function (e) {
+            e.preventDefault();
+            updateDepartment();
+        });
+
+        function updateGroupCount() {
+            $('#groupCount').find('option').remove();
+
+            for (var i = 1; i <= 50; i++) {
+                $('#groupCount').append('<option>' + i + '</option>');
+            }
+        }
+
+        // Init load these functions
+        updateDepartment();
+        updateGroupCount();
     });
 }
 

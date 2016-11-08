@@ -68,61 +68,70 @@
     </div>
 
     <div class="container">
-        <form action="/api/users" method="POST">
-            <div class="row">
-                <div class="form-group">
-                    <label for="username">Username:</label>
-                    <input type="text" name="username" class="form-control" id="username">
-                </div>
+        <div class="row">
+            <div class="col-sm-4"></div>
+            <div class="col-sm-4">
+                <form action="/api/users" method="POST">
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="emailAddress">Email Address:</label>
+                            <input type="text" name="emailAddress" class="form-control" id="emailAddress">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <!--Only display this if the username doesn't exist -->
+                        <div class="form-group">
+                            <label for="firstname">First Name:</label>
+                            <input name="firstname" type="text" class="form-control" id="firstname">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="lastname">Last Name:</label>
+                            <input name="lastname" type="text" class="form-control" id="lastname">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="location">Location:</label>
+                            <select class="form-control" name="location" id="location">
+                                <option>Downtown</option>
+                                <option>Midvale</option>
+                                <option>Palmer Court</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="department">Department:</label>
+                            <select class="form-control" name="department" id="department">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="groupCount">Group Size:</label>
+                            <select class="form-control" name="groupCount" id="groupCount">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <!--After 'registering' set active state to true, the next 'login' will set the active state to false then we will
+                    record the time worked, and send an email to the username -->
+                        <!--do we want to validate the email address? -->
+                        <!--If the login is active -->
+                        <button type="submit" class="btn btn-default">Start Time</button>
+                    </div>
+                </form>
             </div>
-            <div class="row">
-                <!--Only display this if the username doesn't exist -->
-                <div class="form-group">
-                    <label for="firstname">First Name:</label>
-                    <input name="firstname" type="text" class="form-control" id="firstname">
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group">
-                    <label for="lastname">Last Name:</label>
-                    <input name="lastname" type="text" class="form-control" id="lastname">
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group">
-                    <label for="organization">Organization:</label>
-                    <input name="organization" type="text" class="form-control" id="organization">
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group">
-                    <label for="department">Department:</label>
-                    <select name="department" id="department">
-                        <option value="dep1">department1</option>
-                        <option value="dep2">department2</option>
-                        <option value="dep3">department3</option>
-                        <option value="dep4">department4</option>
-                        <option value="dep5">department5</option>
-                    </select>
-                </div>
-            </div>
-            <div class="row">
-                <div class="checkbox">
-                    <label><input type="checkbox"> Email hours to me </label>
-                </div>
-            </div>
-            <div class="row">
-                <!--After 'registering' set active state to true, the next 'login' will set the active state to false then we will
-                record the time worked, and send an email to the username -->
-                <!--do we want to validate the email address? -->
-                <!--If the login is active -->
-                <button type="submit" class="btn btn-default">Login</button>
-            </div>
-        </form>
-      <hr />
-      <footer>
-        <p>&copy; Alpha Coders 2016</p>
-      </footer>
+            <div class="col-sm-4"></div>
+        </div>
+        <div class="row">
+            <hr />
+            <footer>
+                <p>&copy; Alpha Coders 2016</p>
+            </footer>
+        </div>
     </div> <!-- /container -->
 
         <script src="js/vendor/bootstrap.min.js"></script>
