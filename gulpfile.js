@@ -74,5 +74,13 @@ gulp.task('webserver', function () {
 });
 
 gulp.task('php', function () {
-    php.server({ port: 8010, keepalive: true, open: true });
+    php.server({base: 'RoadHomeSymfony/app'}, function () {
+        browserSync({
+            proxy: '127.0.0.1:8000'
+        });
+    });
+
+    gulp.watch('**/*.php').on('change', function () {
+        browserSync.reload();
+    });
 });

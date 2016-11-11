@@ -34,10 +34,39 @@ span::before{
 }
 
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    font-family: Verdana, Helvetica, sans-serif;
+    font-size: 14px;
+  /*font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;*/
 }
 
 a {
-  color: #00B7FF;
+  color: #00b5c8;
+}
+
+.btn-success {
+    background: #00b5c8;
+}
+
+.jumbotron {
+    background: #00b5c8;
+    color: #FFFFFF;
+    border-radius: 5px;
+}
+
+.footer {
+  background: #e7e8e8;
+}
+
+footer {
+    padding: 50px;
+}
+
+.brand-image {
+    background: #00b5c8;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+form {
+    padding: 20px;
 }
