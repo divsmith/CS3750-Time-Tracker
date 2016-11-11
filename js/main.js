@@ -96,6 +96,51 @@ function loadMain() {
             }
         }
 
+
+        // Start Time
+        $('#submitButton').click(function () {
+
+            var email = $('#emailAddress').val();
+            var firstname = $('#firstname').val();
+            var lastname = $('#lastname').val();
+            var location = $('#location').val();
+            var organization = $('#organization').val();
+            var department = $('#department').val();
+            var groupcount = $('#groupCount').val();
+
+            var jsonData = {
+                "email": email,
+                "firstname": firstname,
+                "lastname": lastname,
+                "location": location,
+                "department": department,
+                "groupnumber": groupcount
+            };
+
+            console.log(jsonData);
+
+            $.ajax
+            ({
+                type: "POST",
+                //the url where you want to sent the userName and password to
+                url: 'http://localhost:8000/volunteers',
+                crossDomain: true,
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+                //json object to sent to the authentication url
+                data: JSON.stringify(jsonData),
+                success: function () {
+
+                    alert("Thanks!");
+                },
+                error: function () {
+                    alert("Failure!");
+                }
+            })
+
+        });
+
+
         // Init load these functions
         updateDepartment();
         updateGroupCount();
