@@ -6,13 +6,10 @@
  * Time: 11:41 PM
  */
 
+namespace RoadHome\Domain;
 
 
-use RoadHome\Domain\Volunteer;
-use RoadHome\Domain\StringLiteral;
-
-
-class VolunteerTest extends PHPUnit_Framework_TestCase {
+class VolunteerTest extends \PHPUnit_Framework_TestCase {
 
 
     public function testCreate(){
@@ -22,7 +19,8 @@ class VolunteerTest extends PHPUnit_Framework_TestCase {
             new StringLiteral('lastname'),
             new StringLiteral('organization'),
             new StringLiteral('department'),
-            new StringLiteral('1'));
+            new StringLiteral('1'),
+            new StringLiteral('location'));
         $this->assertNotEquals($result,null);
     }
 
@@ -33,7 +31,8 @@ class VolunteerTest extends PHPUnit_Framework_TestCase {
             new StringLiteral('lastname'),
             new StringLiteral('organization'),
             new StringLiteral('department'),
-            new StringLiteral('1'));
+            new StringLiteral('1'),
+            new StringLiteral('location'));
 
         $result = $volunteer->getId();
         $this->assertEquals($result,null);
@@ -46,7 +45,8 @@ class VolunteerTest extends PHPUnit_Framework_TestCase {
             new StringLiteral('lastname'),
             new StringLiteral('organization'),
             new StringLiteral('department'),
-            new StringLiteral('1'));
+            new StringLiteral('1'),
+            new StringLiteral('location'));
 
         $volunteer->setId(new StringLiteral('1'));
         $result = $volunteer->getId();
@@ -60,7 +60,8 @@ class VolunteerTest extends PHPUnit_Framework_TestCase {
             new StringLiteral('lastname'),
             new StringLiteral('organization'),
             new StringLiteral('department'),
-            new StringLiteral('1'));
+            new StringLiteral('1'),
+            new StringLiteral('location'));
         $result = $volunteer->getEmail();
         $this->assertEquals($result,'test@email.com');
     }
@@ -72,7 +73,8 @@ class VolunteerTest extends PHPUnit_Framework_TestCase {
             new StringLiteral('lastname'),
             new StringLiteral('organization'),
             new StringLiteral('department'),
-            new StringLiteral('1'));
+            new StringLiteral('1'),
+            new StringLiteral('location'));
 
         $result = $volunteer->getFirstname();
         $this->assertEquals($result, 'firstname');
@@ -85,7 +87,8 @@ class VolunteerTest extends PHPUnit_Framework_TestCase {
             new StringLiteral('lastname'),
             new StringLiteral('organization'),
             new StringLiteral('department'),
-            new StringLiteral('1'));
+            new StringLiteral('1'),
+            new StringLiteral('location'));
 
         $result = $volunteer->getLastname();
         $this->assertEquals($result,'lastname');
@@ -99,7 +102,8 @@ class VolunteerTest extends PHPUnit_Framework_TestCase {
             new StringLiteral('lastname'),
             new StringLiteral('organization'),
             new StringLiteral('department'),
-            new StringLiteral('1'));
+            new StringLiteral('1'),
+            new StringLiteral('location'));
 
         $result = $volunteer->getOrganization();
         $this->assertEquals($result,'organization');
@@ -113,7 +117,8 @@ class VolunteerTest extends PHPUnit_Framework_TestCase {
             new StringLiteral('lastname'),
             new StringLiteral('organization'),
             new StringLiteral('department'),
-            new StringLiteral('1'));
+            new StringLiteral('1'),
+            new StringLiteral('location'));
         $result = $volunteer->getDepartment();
         $this->assertEquals($result,'department');
 
@@ -126,7 +131,8 @@ class VolunteerTest extends PHPUnit_Framework_TestCase {
             new StringLiteral('lastname'),
             new StringLiteral('organization'),
             new StringLiteral('department'),
-            new StringLiteral('1'));
+            new StringLiteral('1'),
+            new StringLiteral('location'));
 
         $result = $volunteer->getGroupnumber();
         $this->assertEquals($result, '1');

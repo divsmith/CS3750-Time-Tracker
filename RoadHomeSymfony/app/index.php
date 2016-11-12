@@ -8,7 +8,7 @@
  * @modifier  Mark Richardson 8/6/2016
  * @license   http://opensource.org/licenses/MIT MIT
  * @version   GIT: <git_id>
- * $LastChangedDate$ 10/22/2016
+ * $LastChangedDate$ 11/8/2016
  * $LastChangedBy$   Mark Richardson
  */
 
@@ -31,12 +31,11 @@ $dic = bootstrap();
 $app = $dic['app'];
 $repo = $dic['db-driver'];
 $mysqlrepo = new MysqlVolunteerRepository($repo);
-//currently not used but this will be used to access the login table in the RoadHome DB
-$mysqllogin = new MysqlLoginsRepository($repo);
 
 $app->get('/', function () {
 
     var_dump(file_exists("../src/Domain/Volunteer.php"));
+    var_dump(__DIR__);
 
     $response = new Response();
     $response->setStatusCode(200);
@@ -44,37 +43,24 @@ $app->get('/', function () {
 
 });
 
-//$app->get('/ping', function() use ($dic) {
-//    $response = new Response();
-//    $driver = $dic['db-driver'];
-//    if (!$driver instanceof \PDO) {
-//        $response->setStatusCode(500);
-//        $msg = ['msg' => 'could not connect to the database'];
-//        $response->setContent(json_encode($msg));
-//        return $response;
-//    }
-//    $repo = $dic['repo-mysql'];
-//    if (!$repo instanceof RoadHome\src\Domain\VolunteerRepository) {
-//        $response->setStatusCode(500);
-//        $msg = ['msg' => 'repository problem'];
-//        $response->setContent(json_encode($msg));
-//        return $response;
-//    }
-//    $response->setStatusCode(200);
-//    $msg = ['msg' => 'pong'];
-//    $response->setContent(json_encode($msg));
-//    return $response;
-//});
 
+/**
+ * get teh loginpage(html)
+ */
 $app->get('/loginPage', function(){
     //This route will be used to display the html
 
     $response = new Response();
     $response->setStatusCode(200);
     $response->headers->set('Content-Type', 'text/html');
-    $response->setContent(file_get_contents("/home/kidlappy/PhpstormProjects/RoadHomeSymfony/login.html"));
+    try {
+        $response->setContent(file_get_contents("/home/kidlappy/PhpstormProjects/RoadHomeSymfony/login.html"));
+    } catch(\Exception $e){
+        $e->getMessage();
+    }
     return $response;
 });
+
 /**
  * gets the login css
  */
@@ -82,7 +68,11 @@ $app->get('/css/login', function(){
     $response = new Response();
     $response->setStatusCode(200);
     $response->headers->set('Content-Type', 'text/css');
-    $response->setContent(file_get_contents("/home/kidlappy/PhpstormProjects/RoadHomeSymfony/public/stylesheets/login.css"));
+    try {
+        $response->setContent(file_get_contents("/home/kidlappy/PhpstormProjects/RoadHomeSymfony/public/stylesheets/login.css"));
+    } catch(\Exception $e){
+        $e->getMessage();
+    }
     return $response;
 
 });
@@ -94,7 +84,11 @@ $app->get('/javascript/login', function(){
     $response = new Response();
     $response->setStatusCode(200);
     $response->headers->set('Content-Type', 'application/javascript');
-    $response->setContent(file_get_contents("/home/kidlappy/PhpstormProjects/RoadHomeSymfony/public/js/loginJSON.js"));
+    try {
+        $response->setContent(file_get_contents("/home/kidlappy/PhpstormProjects/RoadHomeSymfony/public/js/loginJSON.js"));
+    } catch(\Exception $e){
+        $e->getMessage();
+    }
     return $response;
 
 });
@@ -106,7 +100,11 @@ $app->get('/javascript/jquery',function(){
     $response = new Response();
     $response->setStatusCode(200);
     $response->headers->set('Content-Type', 'application/javascript');
-    $response->setContent(file_get_contents("/home/kidlappy/PhpstormProjects/RoadHomeSymfony/public/js/jquery-3.1.1.min.js"));
+    try {
+        $response->setContent(file_get_contents("/home/kidlappy/PhpstormProjects/RoadHomeSymfony/public/js/jquery-3.1.1.min.js"));
+    } catch(\Exception $e){
+        $e->getMessage();
+    }
     return $response;
 
 });
@@ -198,7 +196,7 @@ $app->post('/volunteers', function (Request $request) use ($mysqlrepo){
 
     $volunteer = new Volunteer(new StringLiteral($jsonArray["email"]),new StringLiteral($jsonArray["firstname"]),
         new StringLiteral($jsonArray["lastname"]), new StringLiteral($jsonArray["organization"]), new StringLiteral($jsonArray["department"]),
-        new StringLiteral($jsonArray["groupnumber"]), new StringLiteral("Location")); //replace the location field when the form is done.
+        new StringLiteral($jsonArray["groupnumber"]), new StringLiteral($jsonArray["location"]));
 
     $alreadyExists = $mysqlrepo->add($volunteer);
 
@@ -268,140 +266,34 @@ $app->put('/volunteers', function (Request $request) use ($mysqlrepo) {
 });
 
 /**
- * @modified 11/3/2016 by Mark Richardson (The login table is no longer used or supported)
- * ALL COMMENTED OUT CODE BELOW HAS BEEN DEPRECATED THE LOGIN TABLE IS NO LONGER USED
+ * This is the report end point that will return all the volunteers in the DB in no specific order.
  */
-//
-///**
-// * Created 10-22-2016
-// * Simple implementation(No real logic, NOT TESTED)
-// */
-//$app->get('/logins', function (Request $request) use($mysqllogin){
-//
-//    if($request->getContent() !== '')
-//    {
-//        $response = new Response();
-//        $response->setStatusCode(400);
-//        return $response;
-//    }
-//
-//    $data = $mysqllogin->findAll();
-//    $jsonData = json_encode($data, true);
-//
-//    $response = new Response();
-//    $response->setStatusCode(200);
-//    $response->setContent($jsonData);
-//    return $response;
-//});
-//
-///**
-// * Created 10-22-2016
-// * Simple implementation(No real logic, NOT TESTED)
-// */
-//$app->get('/logins/{id}', function (Request $request, $id) use($mysqllogin){
-//
-//    if($request->getContent() !== '')
-//    {
-//        $response = new Response();
-//        $response->setStatusCode(400);
-//        return $response;
-//    }
-//
-//    $intToStrLit = new StringLiteral($id);
-//
-//    $data = $mysqllogin->findById($intToStrLit);
-//    $jsonData = json_encode($data, true);
-//
-//    $response = new Response();
-//    $response->setStatusCode(200);
-//    $response->setContent($jsonData);
-//    return $response;
-//});
-//
-///**
-// * Created 10-22-2016
-// * Simple implementation(NOT TESTED)
-// * Does not consider logging out just logging in
-// */
-//$app->post('/logins', function (Request $request) use($mysqlrepo, $mysqllogin){
-//
-//    if($request->getMethod() != 'POST'){
-//        $response = new Response();
-//        $response->setStatusCode(204);
-//        return $response;
-//    }
-//
-//    if(0 !== strpos($request->headers->get('Content-Type'), 'application/json')){
-//        $response = new Response();
-//        $response->setStatusCode(400);
-//        return $response;
-//    }
-//
-//    $content = $request->getContent();
-//
-//    if($content === ''){
-//        $response = new Response();
-//        $response->setStatusCode(400);
-//        return $response;
-//    }
-//
-//    $data = json_decode($content, true);
-//    $email = new StringLiteral($data["email"]);
-//    $volunteer_record = $mysqlrepo->findByEmail($email);
-//    $id = new StringLiteral($volunteer_record["id"]);
-//
-//    $mysqllogin->add($email, $id);
-//
-//    $response = new Response();
-//    $response->setStatusCode(201);
-//    return $response;
-//
-//});
-//
-///**
-// * Created 10-22-2016
-// * Simple implementation(No real logic, NOT TESTED)
-// */
-//$app->put('/logins/{id}', function (Request $request, $id) use($mysqllogin, $mysqlrepo){
-//
-//    //TODO: this may be used think of how the admins will get the ID they need to update
-//    //TODO: this could be provided via the volunteers get endpoint(all volunteers)
-//
-//    if(0 !== strpos($request->headers->get('Content-Type'), 'application/json')){
-//        $response = new Response();
-//        $response->setStatusCode(400);
-//        return $response;
-//    }
-//
-//    $content = $request->getContent();
-//
-//    if($content === ''){
-//        $response = new Response();
-//        $response->setStatusCode(400);
-//        return $response;
-//    }
-//
-//    //TODO: This will break if a valid id from volunteers table doesn't exist.(foreign key volunteer_id in logins table)
-//
-//    $volunteer = $mysqlrepo->findById(new StringLiteral($id));
-//    var_dump($volunteer);
-//
-//    if(count($volunteer) === 0){
-//        $response = new Response();
-//        $response->setStatusCode(500);
-//        $response->setContent("An Error with the DB has occurred");
-//        return $response;
-//    }
-//
-//    $mysqllogin->add(new StringLiteral('email@email.com'),new StringLiteral($volunteer['id']));
-//
-//
-//    $response = new Response();
-//    $response->setStatusCode(202);
-//    return $response;
-//
-//});
+$app->get('/reports', function(Request $request) use($mysqlrepo){
 
+    if($request->getMethod() != 'GET'){
+
+        $response = new Response();
+        $response->setStatusCode(204);
+        return $response;
+    }
+
+    $content = $request->getContent();
+
+    if($content != '')
+    {
+        $response = new Response();
+        $response->setStatusCode(204);
+        return $response;
+    }
+
+    //create the csv file and store it
+    allToCSV($mysqlrepo);
+
+    $response = new Response();
+    $response->setStatusCode(200);
+    return $response;
+
+});
 
 $app->run();
 
@@ -423,9 +315,10 @@ function volunteerSanitation(Request $request) {
     $cleanOrganization = filter_var($jsonContent['organization'],FILTER_SANITIZE_URL);
     $cleanDepartment = filter_var($jsonContent['department'],FILTER_SANITIZE_URL);
     $cleanGroupnumber = filter_var($jsonContent['groupnumber'],FILTER_SANITIZE_URL);
+    $cleanLocation = filter_var($jsonContent['location'], FILTER_SANITIZE_URL);
 
     $responseData = ['email' => $cleanEmail, 'firstname' => $cleanFirst, 'lastname' => $cleanLast,
-        'organization' => $cleanOrganization, 'department' => $cleanDepartment, 'groupnumber' => $cleanGroupnumber];
+        'organization' => $cleanOrganization, 'department' => $cleanDepartment, 'groupnumber' => $cleanGroupnumber, 'location' => $cleanLocation];
     return $responseData;
 }
 
@@ -446,7 +339,33 @@ function loginSanitation(Request $request){
     return $cleanEmail;
 }
 
+/**
+ * @param MysqlVolunteerRepository $mysqlrepo
+ * This will convert all the Volunteers in the Database to a CSV file
+ */
+function allToCSV(MysqlVolunteerRepository $mysqlrepo) {
 
+    $data = $mysqlrepo->findAll();
+
+    //below is the file name this will create a file that will be different, 'w' flag will write from the beginning
+    //this will be used because we are only writing one individual file
+    //this will store the file to the CSV_Files folder temporarily
+    //TODO: this needs to be changed so it isn't a direct path
+    $fp = fopen(__DIR__ . '/../CSV_FIles/database_'.date("Y-m-d").'_Log'.'.csv', 'w');
+
+    foreach ($data as $fields) {
+        //output data to the csv file
+        fputcsv($fp, $fields);
+    }
+
+    //close the file
+    fclose($fp);
+}
+
+/**
+ * @return Container
+ * This is the dependency injection container
+ */
 function bootstrap()
 {
     $dic = new Container();

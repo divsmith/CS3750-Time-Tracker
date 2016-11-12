@@ -234,5 +234,4 @@ class MysqlVolunteerRepository implements VolunteerRepository
         return $data;
     }
 
-
 }

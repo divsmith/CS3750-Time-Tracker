@@ -21,4 +21,5 @@ return array(
     'Google_' => array($vendorDir . '/google/apiclient/src'),
     'FSHL' => array($vendorDir . '/kukulich/fshl'),
     'Evenement' => array($vendorDir . '/evenement/evenement/src'),
+    '' => array($baseDir . '/src/Domain'),
 );

@@ -12,6 +12,11 @@
     "autoload": {
         "psr-4": {
             "RoadHome\\": "src/"
+        },
+        "psr-0":{
+            "RoadHome\\Domain": "src/Domain/",
+            "RoadHome\\Infrastructure": "src/Infrastructure/",
+            "RoadHome\\Services": "src/Services/"
         }
     },
     "config": {

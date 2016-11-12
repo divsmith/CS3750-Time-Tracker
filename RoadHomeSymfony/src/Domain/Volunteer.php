@@ -9,11 +9,14 @@
  */
 namespace RoadHome\Domain;
 
+
 use RoadHome\Domain\ValueObject;
 
 /**
  * Class Volunteer
- *
+ * @category  PHP
+ * @package   RoadHome\Domain
+ * @author    Mark Richardson <compynerds@gmail.com>
  */
 class Volunteer
 {
