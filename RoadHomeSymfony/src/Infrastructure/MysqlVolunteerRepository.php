@@ -47,15 +47,11 @@ class MysqlVolunteerRepository implements VolunteerRepository
      */
     public function add(Volunteer $volunteer)
     {
-        //not sure if this return value is correct but the check needs to be done.
-        $varcheck = $this->findByEmail($volunteer->getEmail());
-        if(count($varcheck) > 0){
-            return 0;
-        }
 
         $currentTime = Date('Y-m-d H:i:s');
+
         $data = [$volunteer->getEmail(), $volunteer->getFirstname(), $volunteer->getLastname(),
-        $volunteer->getOrganization(), $volunteer->getDepartment(), $volunteer->getGroupnumber(),$currentTime,null,$volunteer->getlocation()];
+        $volunteer->getOrganization(), $volunteer->getDepartment(), $volunteer->getGroupnumber(),$currentTime,NULL,$volunteer->getLocation()];
 
         try {
             $this->driver->prepare(
@@ -66,6 +62,7 @@ class MysqlVolunteerRepository implements VolunteerRepository
             if ($e->getCode() === 1062) {
                 // Take some action if there is a key constraint violation, i.e. duplicate name
             } else {
+                var_dump($e->getMessage());
                 throw $e;
             }
         }
@@ -169,19 +166,19 @@ class MysqlVolunteerRepository implements VolunteerRepository
 
     /**
      * @param \RoadHome\Domain\Volunteer $volunteer
-     * @modified 11/3/2016 by Mark Richardson (changed this function so update will logout)
-     * @afterModification NOT TESTED
+     * @modified 11/12/2016 by Mark Richardson (changed this function so update will logout)
+     * @afterModification Tested on 11/13/2016 update is working as needed
      * @return $this
      */
 
     public function update(Volunteer $volunteer)
     {
         $currentTime = Date('Y-m-d H:i:s');
-        $data = [$currentTime,$volunteer->getEmail(), null];
+        $data = [$currentTime,$volunteer->getEmail()];
 
         try {
             $this->driver->prepare(
-                'UPDATE FROM volunteers SET logout = ? WHERE email = ? AND logout = ?'
+                'UPDATE volunteers SET logout = ? WHERE email = ? AND logout is NULL'
             )->execute($data);
         } catch (\PDOException $e) {
             if ($e->getCode() === 1062) {

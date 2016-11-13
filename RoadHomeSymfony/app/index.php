@@ -23,7 +23,7 @@ use Pimple\Container;
 use RoadHome\Infrastructure\MysqlVolunteerRepository;
 use RoadHome\Domain\StringLiteral;
 use RoadHome\Domain\Volunteer;
-use RoadHome\Infrastructure\MysqlLoginsRepository;
+use RoadHome\Infrastructure\MysqlAdminRepository;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -31,6 +31,7 @@ $dic = bootstrap();
 $app = $dic['app'];
 $repo = $dic['db-driver'];
 $mysqlrepo = new MysqlVolunteerRepository($repo);
+$mysql_admin = new MysqlAdminRepository($repo);
 
 $app->get('/', function () {
 
@@ -45,16 +46,17 @@ $app->get('/', function () {
 
 
 /**
- * get teh loginpage(html)
+ * This route will be used to display the loginPage html
+ * get the loginpage(html)
  */
 $app->get('/loginPage', function(){
-    //This route will be used to display the html
 
     $response = new Response();
     $response->setStatusCode(200);
     $response->headers->set('Content-Type', 'text/html');
+
     try {
-        $response->setContent(file_get_contents("/home/kidlappy/PhpstormProjects/RoadHomeSymfony/login.html"));
+        $response->setContent(file_get_contents(__DIR__."/../RoadHomeSymfony/login.html"));
     } catch(\Exception $e){
         $e->getMessage();
     }
@@ -62,30 +64,31 @@ $app->get('/loginPage', function(){
 });
 
 /**
- * gets the login css
+ * gets the loginPage css
  */
 $app->get('/css/login', function(){
+
     $response = new Response();
     $response->setStatusCode(200);
     $response->headers->set('Content-Type', 'text/css');
     try {
-        $response->setContent(file_get_contents("/home/kidlappy/PhpstormProjects/RoadHomeSymfony/public/stylesheets/login.css"));
+        $response->setContent(file_get_contents(__DIR__."/../public/stylesheets/login.css"));
     } catch(\Exception $e){
         $e->getMessage();
     }
     return $response;
-
 });
 
 /**
- * gets the login javascript
+ * gets the loginPage javascript
  */
 $app->get('/javascript/login', function(){
+
     $response = new Response();
     $response->setStatusCode(200);
     $response->headers->set('Content-Type', 'application/javascript');
     try {
-        $response->setContent(file_get_contents("/home/kidlappy/PhpstormProjects/RoadHomeSymfony/public/js/loginJSON.js"));
+        $response->setContent(file_get_contents(__DIR__."/../public/js/loginJSON.js"));
     } catch(\Exception $e){
         $e->getMessage();
     }
@@ -101,7 +104,7 @@ $app->get('/javascript/jquery',function(){
     $response->setStatusCode(200);
     $response->headers->set('Content-Type', 'application/javascript');
     try {
-        $response->setContent(file_get_contents("/home/kidlappy/PhpstormProjects/RoadHomeSymfony/public/js/jquery-3.1.1.min.js"));
+        $response->setContent(file_get_contents(__DIR__."/../public/js/jquery-3.1.1.min.js"));
     } catch(\Exception $e){
         $e->getMessage();
     }
@@ -136,6 +139,7 @@ $app->get('/volunteers', function(Request $request) use($mysqlrepo) {
 
 /**
  * Select a single record with the specified ID
+ * We May deprecate this endpoint
  * --Working(Test via PostMan)-- 10-22-2016
  */
 $app->get('/volunteers/{id}', function(Request $request,$id) use ($mysqlrepo) {
@@ -167,8 +171,6 @@ $app->get('/volunteers/{id}', function(Request $request,$id) use ($mysqlrepo) {
  */
 $app->post('/volunteers', function (Request $request) use ($mysqlrepo){
 
-    var_dump($request->getContent());
-
     if($request->getMethod() != 'POST'){
         $response = new Response();
         $response->setStatusCode(204);
@@ -181,8 +183,6 @@ $app->post('/volunteers', function (Request $request) use ($mysqlrepo){
         return $response;
     }
 
- //   $content = volunteerSanitation($request);
-
     $content = $request->getContent();
 
     if($content == '')
@@ -192,30 +192,23 @@ $app->post('/volunteers', function (Request $request) use ($mysqlrepo){
         return $response;
     }
 
-    $jsonArray = json_decode($content, true);
+    //Raw user input
+    $rawjsonArray = json_decode($content, true);
+
+    //clean user input
+    $jsonArray = volunteerSanitation($rawjsonArray);
 
     $volunteer = new Volunteer(new StringLiteral($jsonArray["email"]),new StringLiteral($jsonArray["firstname"]),
         new StringLiteral($jsonArray["lastname"]), new StringLiteral($jsonArray["organization"]), new StringLiteral($jsonArray["department"]),
         new StringLiteral($jsonArray["groupnumber"]), new StringLiteral($jsonArray["location"]));
 
-    $alreadyExists = $mysqlrepo->add($volunteer);
-
-    /**
-     * Mysql will return a 0 if the email is already in use.
-     */
-    if($alreadyExists === 0){
-        $response = new Response();
-        $response->setStatusCode(500);
-        return $response;
-    }
-    //TODO: send user to end point for login/logout
+    $mysqlrepo->add($volunteer);
 
     $response = new Response();
     $response->setStatusCode(201);
     return $response;
 });
 
-//TODO: not sure we need to have an update function for this application
 /**
  * Not tested
  * @modified 11/3/2016 by Mark Richardson (added the location StringLiteral location for revised DB)
@@ -244,15 +237,20 @@ $app->put('/volunteers', function (Request $request) use ($mysqlrepo) {
         return $response;
     }
 
-    $jsonArray = json_decode($content, true);
+    //This is all the raw user input
+    $rawjsonArray = json_decode($content, true);
 
+    //This is the clean user input
+    $jsonArray = volunteerSanitation($rawjsonArray);
+
+    //create a Volunteer object ot pass to the volunteer repo
     $volunteer = new Volunteer(new StringLiteral($jsonArray["email"]),new StringLiteral($jsonArray["firstname"]),
         new StringLiteral($jsonArray["lastname"]), new StringLiteral($jsonArray["organization"]), new StringLiteral($jsonArray["department"]),
         new StringLiteral($jsonArray["groupnumber"]), new StringLiteral($jsonArray["location"]));
 
-    $alreadyExists = $mysqlrepo->add($volunteer);
+    $alreadyExists = $mysqlrepo->findByEmail($volunteer->getEmail());
 
-    if($alreadyExists === 0){
+    if(count($alreadyExists) === 0){
         $response = new Response();
         $response->setStatusCode(500);
         return $response;
@@ -295,6 +293,102 @@ $app->get('/reports', function(Request $request) use($mysqlrepo){
 
 });
 
+/**
+ * This is a get Route for the admin login page This will return an html page
+ */
+$app->get('/adminLogin', function(){
+
+    $response = new Response();
+    $response->setStatusCode(200);
+    $response->headers->set('Content-Type', 'text/html');
+    try {
+        $response->setContent(file_get_contents(__DIR__."/../admin_login.html"));
+    } catch(\Exception $e){
+        $e->getMessage();
+    }
+    return $response;
+
+});
+
+/**
+ * This is a get Route for the admin page This will return an html page
+ */
+$app->get('/admin', function(){
+
+    //if client has valid token then show page
+
+    //else redirect to login page
+
+    //
+
+    $response = new Response();
+    $response->setStatusCode(200);
+    $response->headers->set('Content-Type', 'text/html');
+    try {
+        $response->setContent(file_get_contents(__DIR__."/../admin_page.html"));
+    } catch(\Exception $e){
+        $e->getMessage();
+    }
+    return $response;
+
+});
+
+/**
+ * Posting to the admin end point will be how you login to use the reports endpoints.
+ */
+$app->post('/admin', function(Request $request) use($mysql_admin) {
+
+    if($request->getMethod() != 'POST'){
+        $response = new Response();
+        $response->setStatusCode(204);
+        return $response;
+    }
+
+    if(0 !== strpos($request->headers->get('Content-Type'), 'application/json')){
+        $response = new Response();
+        $response->setStatusCode(400);
+        return $response;
+    }
+
+    $content = $request->getContent();
+
+    if($content == '')
+    {
+        $response = new Response();
+        $response->setStatusCode(204);
+        return $response;
+    }
+
+    $jsonArray = json_decode($content, true);
+
+    $username = $jsonArray['username'];
+    $passphrase = $jsonArray['passphrase'];
+
+    $clean_username = filter_var($username, FILTER_SANITIZE_URL);
+    //encrypt password with salt
+    $salt = 'RoadHomeAndPI3141592!';
+    $enc_pass = crypt($passphrase, $salt);
+
+    //this will call the DB to get the credentials
+    $validCredentials = $mysql_admin->verifyCredentials(new StringLiteral($clean_username), new StringLiteral($enc_pass));
+
+    //This will check to see if a row was returned from the DB if not exit
+    if(count($validCredentials) === 0){
+        $response = new Response();
+        $response->setStatusCode(500);
+        return $response;
+    }
+
+    //TODO: On success set the client session info
+    //Should I store the token in the mysql array and update it?
+
+    $response = new Response();
+    $response->setStatusCode(201);
+    return $response;
+
+});
+
+
 $app->run();
 
 /**
@@ -304,39 +398,19 @@ $app->run();
  * @param Request $request
  * @return array
  */
-function volunteerSanitation(Request $request) {
+function volunteerSanitation($jsonArray) {
 
-    $content = $request->getContent();
-    $jsonContent = json_decode($content, true);
-
-    $cleanEmail = filter_var($jsonContent['email'],FILTER_SANITIZE_EMAIL);
-    $cleanFirst = filter_var($jsonContent['firstname'],FILTER_SANITIZE_URL);
-    $cleanLast = filter_var($jsonContent['lastname'],FILTER_SANITIZE_URL);
-    $cleanOrganization = filter_var($jsonContent['organization'],FILTER_SANITIZE_URL);
-    $cleanDepartment = filter_var($jsonContent['department'],FILTER_SANITIZE_URL);
-    $cleanGroupnumber = filter_var($jsonContent['groupnumber'],FILTER_SANITIZE_URL);
-    $cleanLocation = filter_var($jsonContent['location'], FILTER_SANITIZE_URL);
+    $cleanEmail = filter_var($jsonArray['email'],FILTER_SANITIZE_EMAIL);
+    $cleanFirst = filter_var($jsonArray['firstname'],FILTER_SANITIZE_URL);
+    $cleanLast = filter_var($jsonArray['lastname'],FILTER_SANITIZE_URL);
+    $cleanOrganization = filter_var($jsonArray['organization'],FILTER_SANITIZE_URL);
+    $cleanDepartment = filter_var($jsonArray['department'],FILTER_SANITIZE_URL);
+    $cleanGroupnumber = filter_var($jsonArray['groupnumber'],FILTER_SANITIZE_URL);
+    $cleanLocation = filter_var($jsonArray['location'], FILTER_SANITIZE_URL);
 
     $responseData = ['email' => $cleanEmail, 'firstname' => $cleanFirst, 'lastname' => $cleanLast,
         'organization' => $cleanOrganization, 'department' => $cleanDepartment, 'groupnumber' => $cleanGroupnumber, 'location' => $cleanLocation];
     return $responseData;
-}
-
-/**
- * Function that will sanitize all login input data from forms
- * (NOT TESTED)
- * Created: 10-30-2016
- * @param Request $request
- * @return array
- */
-function loginSanitation(Request $request){
-
-    $content = $request->getContent();
-    $jsonContent = json_decode($content,true);
-
-    $cleanEmail = filter_var($jsonContent['email'],FILTER_SANITIZE_EMAIL);
-
-    return $cleanEmail;
 }
 
 /**

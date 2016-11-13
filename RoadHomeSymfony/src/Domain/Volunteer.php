@@ -60,7 +60,7 @@ class Volunteer
         StringLiteral $organization,
         StringLiteral $department,
         StringLiteral $groupnumber,
-        StringLiteral $lcoation
+        StringLiteral $location
 
     ){
         $this->email = $email;
@@ -69,7 +69,7 @@ class Volunteer
         $this->organization = $organization;
         $this->department = $department;
         $this->groupnumber = $groupnumber;
-        $this->location = $lcoation;
+        $this->location = $location;
     }
 
     /**
