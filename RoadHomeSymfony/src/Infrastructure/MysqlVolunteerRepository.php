@@ -43,10 +43,18 @@ class MysqlVolunteerRepository implements VolunteerRepository
      * @param \RoadHome\Domain\Volunteer $volunteer
      * @return $this
      * @throws \PDOException
-     * @modified 11/3/2016 by Mark Richardson (changed the values to reflect the DB changes)
+     * @modified 11/13/2016 by Mark Richardson (changed the values to reflect the DB changes)
+     * This was changed to check for open records and log out if they exist(NOT TESTED)
      */
     public function add(Volunteer $volunteer)
     {
+        //check the DB to see if the user has an open login if so logout and return.
+        $checkOpenLogout = $this->checkForOpen($volunteer->getEmail());
+
+        if(count($checkOpenLogout) != 0){
+            $this->update($volunteer);
+            return $this;
+        }
 
         $currentTime = Date('Y-m-d H:i:s');
 
@@ -139,7 +147,7 @@ class MysqlVolunteerRepository implements VolunteerRepository
      */
     public function findById(StringLiteral $id)
     {
-        $data = null;
+        $data = '';
         try {
             $statement = $this->driver->prepare('SELECT * FROM volunteers WHERE id = ?');
             $statement->execute([$id]);
@@ -170,7 +178,6 @@ class MysqlVolunteerRepository implements VolunteerRepository
      * @afterModification Tested on 11/13/2016 update is working as needed
      * @return $this
      */
-
     public function update(Volunteer $volunteer)
     {
         $currentTime = Date('Y-m-d H:i:s');
@@ -230,5 +237,31 @@ class MysqlVolunteerRepository implements VolunteerRepository
         }
         return $data;
     }
+
+    /**
+     * This is used for the add function to check if there is an open record
+     * @created 11/13/2016
+     * @param StringLiteral $email
+     * @return array|string
+     */
+    public function checkForOpen(StringLiteral $email)
+    {
+        $data = [$email];
+        try {
+            $statement = $this->driver->prepare('SELECT * FROM volunteers WHERE email = ? AND logout is NULL');
+            $statement->execute($data);
+            $data = $statement->fetchAll();
+        }catch(\PDOException $e)
+        {
+            if($e->getCode() === 1062)
+            {
+            }else{
+                throw $e;
+            }
+        }
+        return $data;
+
+    }
+
 
 }
