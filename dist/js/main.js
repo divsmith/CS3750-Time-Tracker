@@ -107,21 +107,9 @@ function loadMain() {
             }
         }
 
-        // On change of the department, update department.
         $('body').on('change', $('#department'), function (e) {
             e.preventDefault();
             updateDepartment();
-        });
-
-        // If U of U student, auto fill out school name.
-        $('body').on('change', $('#uOfUStudent'), function (e) {
-            e.preventDefault();
-
-            if ($('#uOfUStudent').is(':checked')) {
-                $('#education').val('University of Utah');
-            } else {
-                $('#education').val('');
-            }
         });
 
         function updateGroupCount() {
