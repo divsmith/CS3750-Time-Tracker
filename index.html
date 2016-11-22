@@ -2,158 +2,273 @@
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang=""> <!--<![endif]-->
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title></title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="">
+ <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>The Road Home</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <link rel="stylesheet" href="css/bootstrap.min.css">
-        <style>
-            body {
-                padding-top: 50px;
-                padding-bottom: 20px;
-            }
-        </style>
-        <link rel="stylesheet" href="css/bootstrap-theme.min.css">
-        <link rel="stylesheet" href="css/libs/sweetalert2.css" />
-        <link rel="stylesheet" href="css/main.css">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="stylesheet" href="css/libs/bootstrap.min.css">
+    <link rel="stylesheet" href="css/libs/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="css/libs/sweetalert2.css" />
+    <link rel="stylesheet" href="css/main.css">
 
-        <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
-        <script src="js/libs/jquery.js"></script>
-        <script src="js/libs/es6-promise.js"></script>
-        <script src="js/libs/moment.min.js"></script>
-        <script src="js/libs/sweetalert2.js"></script>
-        <script src="js/libs/sugar.js"></script>
-        <script src="js/libs/jquery.validate.js"></script>
-    </head>
-                       <body onload="loadMain()">
-                           <!--[if lt IE 8]>
+    <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+    <script src="js/libs/jquery.js"></script>
+    <script src="js/libs/jquery.validate.js"></script>
+    <script src="js/libs/bootstrap.min.js"></script>
+    <script src="js/libs/moment.min.js"></script>
+    <script src="js/libs/sugar.js"></script>
+    <script src="js/libs/sweetalert2.js"></script>
+</head>
+<body onload="loadMain()">
+    <!--[if lt IE 8]>
         <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
-                           <nav class="navbar navbar-default navbar-fixed-top light_shadow teal_text" role="navigation">
-                               <div class="container">
-                                   <div class="navbar-header">
-                                       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                                           <span class="sr-only">Toggle navigation</span>
-                                           <span class="icon-bar"></span>
-                                           <span class="icon-bar"></span>
-                                           <span class="icon-bar"></span>
-                                       </button>
-                                       <a class="navbar-brand" href="#">
-                                           <span class="brand-image"><img alt="Brand" src="img/icn_ribbon.png"></span>
-                                           <label>The Road Home</label>
-                                       </a>
-                                   </div>
-                                   <div id="navbar" class="navbar-collapse collapse">
-                                       <form id="adminSigninForm" class="navbar-form navbar-right" role="form" novalidate>
-                                           <div class="form-group">
-                                               <input type="email" id="adminEmail" placeholder="Email" class="form-control" required value="test@test.com" />
-                                           </div>
-                                           <div class="form-group">
-                                               <input id="adminPwd" type="password" placeholder="Password" class="form-control" minlength="3" required value="1234" />
-                                           </div>
-                                           <a class="btn btn-success" href="#" role="button" id="loginAdmin">Sign in</a>
-                                       </form>
-                                   </div><!--/.navbar-collapse -->
-                               </div>
-                           </nav>
-
-                           <!-- Main jumbotron for a primary marketing message or call to action -->
-                           <div class="jumbotron container">
-                               <div class="row text-center">
-                                   <div class="col-sm-1">
-                                       <img src="img/logo.png" />
-                                   </div>
-                                   <div class="col-sm-11">
-                                       <h1 id="homeCurrentTime"></h1>
-                                       <h2 id="homeCurrentDate"></h2>
-                                   </div>
-                               </div>
-                           </div>
-
-                           <div class="container">
-                               <div class="row">
-                                   <div class="col-sm-4"></div>
-                                   <div class="col-sm-4">
-                                       <form action="/api/users" method="POST">
-                                           <div class="row">
-                                               <div class="form-group">
-                                                   <label for="emailAddress">Email Address:</label>
-                                                   <input type="text" name="emailAddress" class="form-control" id="emailAddress">
-                                               </div>
-                                           </div>
-                                           <div class="row">
-                                               <!--Only display this if the username doesn't exist -->
-                                               <div class="form-group">
-                                                   <label for="firstname">First Name:</label>
-                                                   <input name="firstname" type="text" class="form-control" id="firstname">
-                                               </div>
-                                           </div>
-                                           <div class="row">
-                                               <div class="form-group">
-                                                   <label for="lastname">Last Name:</label>
-                                                   <input name="lastname" type="text" class="form-control" id="lastname">
-                                               </div>
-                                           </div>
-                                           <div class="row">
-                                               <div class="form-group">
-                                                   <label for="location">Location:</label>
-                                                   <select class="form-control" name="location" id="location">
-                                                       <option>Downtown</option>
-                                                       <option>Midvale</option>
-                                                       <option>Palmer Court</option>
-                                                   </select>
-                                               </div>
-                                           </div>
-                                           <div class="row">
-                                               <div class="form-group">
-                                                   <label for="department">Department:</label>
-                                                   <select class="form-control" name="department" id="department"></select>
-                                               </div>
-                                           </div>
-                                           <div class="row">
-                                               <div class="form-group">
-                                                   <label for="groupCount">Group Size:</label>
-                                                   <select class="form-control" name="groupCount" id="groupCount"></select>
-                                               </div>
-                                           </div>
-                                           <div class="row">
-                                               <!--After 'registering' set active state to true, the next 'login' will set the active state to false then we will
+    <nav class="navbar navbar-default navbar-fixed-top light_shadow teal_text" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">
+                    <span class="brand-image"><img alt="Brand" src="img/icn_ribbon.png"></span>
+                    <label>The Road Home</label>
+                </a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#" id="timeLink">On-Going Volunteer</a></li>
+                    <li><a href="#" id="groupLink">One-Time Volunteer</a></li>
+                </ul>
+                <form id="adminSigninForm" class="navbar-form navbar-right" role="form" novalidate>
+                    <div class="form-group">
+                        <input type="email" id="adminEmail" placeholder="Email" class="form-control" required value="test@test.com" />
+                    </div>
+                    <div class="form-group">
+                        <input id="adminPwd" type="password" placeholder="Password" class="form-control" minlength="3" required value="1234" />
+                    </div>
+                    <a class="btn btn-success" href="#" role="button" id="loginAdmin">Sign in</a>
+                </form>
+            </div><!--/.navbar-collapse -->
+        </div>
+    </nav>
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron container">
+        <div class="row text-center">
+            <div class="col-sm-1">
+                <img src="img/logo.png" />
+            </div>
+            <div class="col-sm-11">
+                <h1 id="homeCurrentTime"></h1>
+                <h2 id="homeCurrentDate"></h2>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div id="timeDiv" class="row" style="display: none;">
+            <div class="col-med-3 col-lg-3"></div>
+            <div class="col-med-6 col-lg-6">
+                <form action="/api/users" method="POST">
+                    <div class="row">
+                        <div class="panel panel-success">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">On-Going Volunteer</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                                        <input type="text" name="emailAddress" class="form-control" id="emailAddress" placeholder="Email Address" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="timeStart" class="form-label">Start Time:</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                        <input type="datetime-local" class="form-control" id="timeStart" value="" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="timeEnd" class="form-label">End Time:</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                        <input type="datetime-local" class="form-control" id="timeEnd" value="" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="durationHours" class="form-label">Calculated Duration:</label>
+                                    <div class="input-group">
+                                        <span id="calculatedHours">0</span> Hours,&nbsp;<span id="calculatedMinutes">0</span> Minutes
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-globe"></i></span>
+                                        <select class="form-control" name="department" id="department" required>
+                                            <option>Art Club</option>
+                                            <option>Book Club</option>
+                                            <option>Front Desk - Family</option>
+                                            <option>Front Desk - Men</option>
+                                            <option>Front Desk - Women</option>
+                                            <option>On-Call Interpreter</option>
+                                            <option>One Time Group - Kid's Activity</option>
+                                            <option>One Time Group - Warehouse/Deep Clean</option>
+                                            <option>Palmer Court - Book Club</option>
+                                            <option>Palmer Court - Donation Room</option>
+                                            <option>Palmer Court - Special Events</option>
+                                            <option>Palmer Court - Study Night</option>
+                                            <option>Playroom</option>
+                                            <option>Preschool</option>
+                                            <option>Singles Program</option>
+                                            <option>Speaker's Bureau Assignment</option>
+                                            <option>Special Classes</option>
+                                            <option>Special Events</option>
+                                            <option>Teen Night Out</option>
+                                            <option>Warehouse</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-footer hidden">
+                                <span id="activityInformationMessage" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <!--After 'registering' set active state to true, the next 'login' will set the active state to false then we will
                         record the time worked, and send an email to the username -->
-                                               <!--do we want to validate the email address? -->
-                                               <!--If the login is active -->
-                                               <button type="submit" id="submitButton" class="btn btn-success">Start Time</button>
-                                           </div>
-                                       </form>
-                                   </div>
-                                   <div class="col-sm-4"></div>
-                               </div>
-                           </div> <!-- /container -->
-
-                           <div class="footer">
-                               <footer>
-                                   <p>&copy; Alpha Coders 2016</p>
-                               </footer>
-                           </div>
-
-                           <script src="js/vendor/bootstrap.min.js"></script>
-
-                           <script src="js/main.js"></script>
-
-                           <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
-                           <script>
-                               (function (b, o, i, l, e, r) {
-                                   b.GoogleAnalyticsObject = l; b[l] || (b[l] =
-                                   function () { (b[l].q = b[l].q || []).push(arguments) }); b[l].l = +new Date;
-                                   e = o.createElement(i); r = o.getElementsByTagName(i)[0];
-                                   e.src = '//www.google-analytics.com/analytics.js';
-                                   r.parentNode.insertBefore(e, r)
-                               }(window, document, 'script', 'ga'));
-                               ga('create', 'UA-XXXXX-X', 'auto'); ga('send', 'pageview');
-                           </script>
-                       </body>
+                        <!--do we want to validate the email address? -->
+                        <!--If the login is active -->
+                        <button type="submit" id="submitButton" class="btn btn-success">Record Activity</button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-med-3 col-lg-3"></div>
+        </div>
+        <div id="groupDiv" class="row" style="display: none;">
+            <div class="col-sm-4"></div>
+            <div class="col-sm-4">
+                <form action="/api/users" method="POST">
+                    <div class="row">
+                        <div class="panel panel-success">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">One-Time Volunteer</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                        <input name="firstname" type="text" class="form-control" id="firstname" placeholder="First Name" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                        <input name="lastname" type="text" class="form-control" id="lastname" placeholder="Last Name" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="timeStart" class="form-label">Start Time:</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                        <input type="datetime-local" class="form-control" id="groupTimeStart" value="" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="timeEnd" class="form-label">End Time:</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                        <input type="datetime-local" class="form-control" id="groupTimeEnd" value="" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="groupDurationHours" class="form-label">Calculated Duration:</label>
+                                    <div class="input-group">
+                                        <span id="calculatedHours">0</span> Hours,&nbsp;<span id="calculatedMinutes">0</span> Minutes
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-globe"></i></span>
+                                        <select class="form-control" name="department" id="department" required>
+                                            <option>Art Club</option>
+                                            <option>Book Club</option>
+                                            <option>Front Desk - Family</option>
+                                            <option>Front Desk - Men</option>
+                                            <option>Front Desk - Women</option>
+                                            <option>On-Call Interpreter</option>
+                                            <option>One Time Group - Kid's Activity</option>
+                                            <option>One Time Group - Warehouse/Deep Clean</option>
+                                            <option>Palmer Court - Book Club</option>
+                                            <option>Palmer Court - Donation Room</option>
+                                            <option>Palmer Court - Special Events</option>
+                                            <option>Palmer Court - Study Night</option>
+                                            <option>Playroom</option>
+                                            <option>Preschool</option>
+                                            <option>Singles Program</option>
+                                            <option>Speaker's Bureau Assignment</option>
+                                            <option>Special Classes</option>
+                                            <option>Special Events</option>
+                                            <option>Teen Night Out</option>
+                                            <option>Warehouse</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="groupCount">Group Size:</label>
+                                    <select class="form-control" name="groupCount" id="groupCount"></select>
+                                </div>
+                                <div class="form-group">
+                                    <div class="material-switch">
+                                        <input id="uOfUStudent" name="uOfUStudent" type="checkbox" />
+                                        <label for="uOfUStudent" class="switch-success"></label>
+                                        &nbsp;<span>U of U Student?</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-footer hidden">
+                                <span id="groupFooterMessage" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <!--After 'registering' set active state to true, the next 'login' will set the active state to false then we will
+                        record the time worked, and send an email to the username -->
+                        <!--do we want to validate the email address? -->
+                        <!--If the login is active -->
+                        <button type="submit" id="submitButton" class="btn btn-success">Record Activity</button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-sm-4"></div>
+        </div>
+    </div> <!-- /container -->
+    <div class="footer">
+        <footer>
+            <p>&copy; Alpha Coders 2016</p>
+        </footer>
+    </div>
+    
+    <script src="js/main.js"></script>
+    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+    <script>
+        (function (b, o, i, l, e, r) {
+            b.GoogleAnalyticsObject = l; b[l] || (b[l] =
+            function () { (b[l].q = b[l].q || []).push(arguments) }); b[l].l = +new Date;
+            e = o.createElement(i); r = o.getElementsByTagName(i)[0];
+            e.src = '//www.google-analytics.com/analytics.js';
+            r.parentNode.insertBefore(e, r)
+        }(window, document, 'script', 'ga'));
+        ga('create', 'UA-XXXXX-X', 'auto'); ga('send', 'pageview');
+    </script>
+</body>
 </html>

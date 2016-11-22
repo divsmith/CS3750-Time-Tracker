@@ -32,11 +32,6 @@ function loadMain() {
         links.push($('#timeLink'));
         links.push($('#groupLink'));
 
-        // Collapse menu on click.
-        $("nav").find("li").on("click", "a", function () {
-            $('.navbar-collapse.in').collapse('hide');
-        });
-
         // View changes - Setup on click handlers
         function changeView(onView, onLink) {
             views.forEach(function (selView) {
@@ -90,16 +85,44 @@ function loadMain() {
             loginAdmin();
         });
 
-        //// If U of U student, auto fill out school name.
-        //$('body').on('change', $('#uOfUStudent'), function (e) {
-        //    e.preventDefault();
+        // Time Entry - Dropdowns
+        var locationsDepartments = {
+            "Downtown": ["Front Desk", "Warehouse", "Dinner", "Kid's Activity", "Women's Activity", "Special Event"],
+            "Midvale": ["Warehouse", "Kid's Activity", "Dinner", "Book Club", "Playroom", "Preschool Playgroup", "Special Event"],
+            "Palmer Court": ["Study Night", "Book Club", "Special Event"]
+        };
 
-        //    if ($('#uOfUStudent').is(':checked')) {
-        //        $('#education').val('University of Utah');
-        //    } else {
-        //        $('#education').val('');
-        //    }
-        //});
+        function updateDepartment() {
+            // Clear existing options
+            $('#department').find('option').remove();
+
+            // Get current location.
+            var locationValue = $('#location').val();
+
+            // Populate locations
+            if (locationsDepartments[locationValue]) {
+                for (var i = 0; i < locationsDepartments[locationValue].length; i++) {
+                    $('#department').append('<option>' + locationsDepartments[locationValue][i] + '</option>');
+                }
+            }
+        }
+
+        // On change of the department, update department.
+        $('body').on('change', $('#department'), function (e) {
+            e.preventDefault();
+            updateDepartment();
+        });
+
+        // If U of U student, auto fill out school name.
+        $('body').on('change', $('#uOfUStudent'), function (e) {
+            e.preventDefault();
+
+            if ($('#uOfUStudent').is(':checked')) {
+                $('#education').val('University of Utah');
+            } else {
+                $('#education').val('');
+            }
+        });
 
         function updateGroupCount() {
             $('#groupCount').find('option').remove();
@@ -113,10 +136,10 @@ function loadMain() {
 
         }
 
-        function calculateDuration(start, stop, target) {
+        function calculateDuration() {
             try {
-                var start = new Date(start.val());
-                var end = new Date(stop.val());
+                var start = new Date($('#timeStart').val());
+                var end = new Date($('#timeEnd').val());
 
                 var hours = 0;
                 var minutes = 0;
@@ -127,21 +150,17 @@ function loadMain() {
                     minutes = Math.floor((calculated - (hours * 60 * 60 * 1000)) / 1000 / 60);
                 }
 
-                target.find('#calculatedHours').text(hours);
-                target.find('#calculatedMinutes').text(minutes);
+                $('#calculatedHours').text(hours);
+                $('#calculatedMinutes').text(minutes);
             } catch (ex) {
-                target.find('#calculatedHours').text('X');
-                target.find('#calculatedMinutes').text('X');
+                $('#calculatedHours').text('X');
+                $('#calculatedMinutes').text('X');
             }
         }
 
         // Calculated Times
         $('body').on('change', $('#timeStart #timeEnd'), function (e) {
-            calculateDuration($('#timeStart'), $('#timeEnd'), $('#timeDiv'));
-        });
-
-        $('body').on('change', $('#groupTimeStart #groupTimeEnd'), function (e) {
-            calculateDuration($('#groupTimeStart'),$('#groupTimeEnd'), $('#groupDiv'));
+            calculateDuration();
         });
 
         // Start Time
@@ -198,8 +217,9 @@ function loadMain() {
         // Init load these functions
         // Go to default view
         changeView($('#timeDiv'), $('#timeLink'));
+        updateDepartment();
         updateGroupCount();
-        calculateDuration($('#timeStart'), $('#timeEnd'), $('#timeDiv'));
+        calculateDuration();
     });
 }
 
