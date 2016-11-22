@@ -46,8 +46,8 @@
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="#" id="timeLink">Time Entry</a></li>
-                    <li><a href="#" id="groupLink">Group Entry</a></li>
+                    <li class="active"><a href="#" id="timeLink">On-Going Volunteer</a></li>
+                    <li><a href="#" id="groupLink">One-Time Volunteer</a></li>
                 </ul>
                 <form id="adminSigninForm" class="navbar-form navbar-right" role="form" novalidate>
                     <div class="form-group">
@@ -81,7 +81,7 @@
                     <div class="row">
                         <div class="panel panel-success">
                             <div class="panel-heading">
-                                <h3 class="panel-title">Basic Information</h3>
+                                <h3 class="panel-title">On-Going Volunteer</h3>
                             </div>
                             <div class="panel-body">
                                 <div class="form-group">
@@ -90,71 +90,6 @@
                                         <input type="text" name="emailAddress" class="form-control" id="emailAddress" placeholder="Email Address" required>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                        <input name="firstname" type="text" class="form-control" id="firstname" placeholder="First Name" required>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                        <input name="lastname" type="text" class="form-control" id="lastname" placeholder="Last Name" required>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></span>
-                                        <input name="phonenumber" type="tel" class="form-control" id="phonenumber" placeholder="Phone Number" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="panel panel-success">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Details</h3>
-                            </div>
-                            <div class="panel-body">
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="glyphicon glyphicon-globe"></i></span>
-                                        <select class="form-control" name="location" id="location" required>
-                                            <option>Downtown</option>
-                                            <option>Midvale</option>
-                                            <option>Palmer Court</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
-                                        <select class="form-control" name="department" id="department" required></select>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="material-switch">
-                                        <input id="uOfUStudent" name="uOfUStudent" type="checkbox" />
-                                        <label for="uOfUStudent" class="switch-success"></label>
-                                        &nbsp;<span>U of U Student?</span>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="glyphicon glyphicon-education"></i></span>
-                                        <input type="text" class="form-control" name="education" id="education" placeholder="School (Students Only)" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="panel panel-success">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Activity Information</h3>
-                            </div>
-                            <div class="panel-body">
                                 <div class="form-group">
                                     <label for="timeStart" class="form-label">Start Time:</label>
                                     <div class="input-group">
@@ -173,6 +108,33 @@
                                     <label for="durationHours" class="form-label">Calculated Duration:</label>
                                     <div class="input-group">
                                         <span id="calculatedHours">0</span> Hours,&nbsp;<span id="calculatedMinutes">0</span> Minutes
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-globe"></i></span>
+                                        <select class="form-control" name="department" id="department" required>
+                                            <option>Art Club</option>
+                                            <option>Book Club</option>
+                                            <option>Front Desk - Family</option>
+                                            <option>Front Desk - Men</option>
+                                            <option>Front Desk - Women</option>
+                                            <option>On-Call Interpreter</option>
+                                            <option>One Time Group - Kid's Activity</option>
+                                            <option>One Time Group - Warehouse/Deep Clean</option>
+                                            <option>Palmer Court - Book Club</option>
+                                            <option>Palmer Court - Donation Room</option>
+                                            <option>Palmer Court - Special Events</option>
+                                            <option>Palmer Court - Study Night</option>
+                                            <option>Playroom</option>
+                                            <option>Preschool</option>
+                                            <option>Singles Program</option>
+                                            <option>Speaker's Bureau Assignment</option>
+                                            <option>Special Classes</option>
+                                            <option>Special Events</option>
+                                            <option>Teen Night Out</option>
+                                            <option>Warehouse</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -197,44 +159,85 @@
             <div class="col-sm-4">
                 <form action="/api/users" method="POST">
                     <div class="row">
-                        <div class="form-group">
-                            <label for="emailAddress">Email Address:</label>
-                            <input type="text" name="emailAddress" class="form-control" id="emailAddress">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <!--Only display this if the username doesn't exist -->
-                        <div class="form-group">
-                            <label for="firstname">First Name:</label>
-                            <input name="firstname" type="text" class="form-control" id="firstname">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group">
-                            <label for="lastname">Last Name:</label>
-                            <input name="lastname" type="text" class="form-control" id="lastname">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group">
-                            <label for="location">Location:</label>
-                            <select class="form-control" name="location" id="location">
-                                <option>Downtown</option>
-                                <option>Midvale</option>
-                                <option>Palmer Court</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group">
-                            <label for="department">Department:</label>
-                            <select class="form-control" name="department" id="department"></select>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group">
-                            <label for="groupCount">Group Size:</label>
-                            <select class="form-control" name="groupCount" id="groupCount"></select>
+                        <div class="panel panel-success">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">One-Time Volunteer</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                        <input name="firstname" type="text" class="form-control" id="firstname" placeholder="First Name" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                        <input name="lastname" type="text" class="form-control" id="lastname" placeholder="Last Name" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="timeStart" class="form-label">Start Time:</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                        <input type="datetime-local" class="form-control" id="groupTimeStart" value="" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="timeEnd" class="form-label">End Time:</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                        <input type="datetime-local" class="form-control" id="groupTimeEnd" value="" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="groupDurationHours" class="form-label">Calculated Duration:</label>
+                                    <div class="input-group">
+                                        <span id="calculatedHours">0</span> Hours,&nbsp;<span id="calculatedMinutes">0</span> Minutes
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-globe"></i></span>
+                                        <select class="form-control" name="department" id="department" required>
+                                            <option>Art Club</option>
+                                            <option>Book Club</option>
+                                            <option>Front Desk - Family</option>
+                                            <option>Front Desk - Men</option>
+                                            <option>Front Desk - Women</option>
+                                            <option>On-Call Interpreter</option>
+                                            <option>One Time Group - Kid's Activity</option>
+                                            <option>One Time Group - Warehouse/Deep Clean</option>
+                                            <option>Palmer Court - Book Club</option>
+                                            <option>Palmer Court - Donation Room</option>
+                                            <option>Palmer Court - Special Events</option>
+                                            <option>Palmer Court - Study Night</option>
+                                            <option>Playroom</option>
+                                            <option>Preschool</option>
+                                            <option>Singles Program</option>
+                                            <option>Speaker's Bureau Assignment</option>
+                                            <option>Special Classes</option>
+                                            <option>Special Events</option>
+                                            <option>Teen Night Out</option>
+                                            <option>Warehouse</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="groupCount">Group Size:</label>
+                                    <select class="form-control" name="groupCount" id="groupCount"></select>
+                                </div>
+                                <div class="form-group">
+                                    <div class="material-switch">
+                                        <input id="uOfUStudent" name="uOfUStudent" type="checkbox" />
+                                        <label for="uOfUStudent" class="switch-success"></label>
+                                        &nbsp;<span>U of U Student?</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-footer hidden">
+                                <span id="groupFooterMessage" class="text-danger"></span>
+                            </div>
                         </div>
                     </div>
                     <div class="row">
@@ -242,7 +245,7 @@
                         record the time worked, and send an email to the username -->
                         <!--do we want to validate the email address? -->
                         <!--If the login is active -->
-                        <button type="submit" id="submitButton" class="btn btn-success">Start Time</button>
+                        <button type="submit" id="submitButton" class="btn btn-success">Record Activity</button>
                     </div>
                 </form>
             </div>
