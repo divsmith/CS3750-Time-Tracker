@@ -90,17 +90,6 @@ function loadMain() {
             loginAdmin();
         });
 
-        //// If U of U student, auto fill out school name.
-        //$('body').on('change', $('#uOfUStudent'), function (e) {
-        //    e.preventDefault();
-
-        //    if ($('#uOfUStudent').is(':checked')) {
-        //        $('#education').val('University of Utah');
-        //    } else {
-        //        $('#education').val('');
-        //    }
-        //});
-
         function updateGroupCount() {
             $('#groupCount').find('option').remove();
 
@@ -208,13 +197,11 @@ function loadAdmin() {
     $(document).ready(function () {
         // Init - Setup Views
         var views = [];
-        views.push($('#homeDiv'));
-        views.push($('#activityDiv'));
+        views.push($('#usersDiv'));
         views.push($('#reportsDiv'));
 
         var links = [];
-        links.push($('#homeLink'));
-        links.push($('#activityLink'));
+        links.push($('#usersLink'));
         links.push($('#reportsLink'));
 
         // View changes - Setup on click handlers
@@ -233,7 +220,7 @@ function loadAdmin() {
         }
         
         // Go to default view
-        changeView($('#homeDiv'), $('#homeLink'));
+        changeView($('#usersDiv'), $('#usersLink'));
 
         // Logout
         function logout() {
@@ -245,19 +232,25 @@ function loadAdmin() {
             logout();
         });
 
-        $('#homeLink').on('click', function (e) {
+        $('#usersLink').on('click', function (e) {
             e.preventDefault();
-            changeView($('#homeDiv'), $('#homeLink'));
-        });
-
-        $('#activityLink').on('click', function (e) {
-            e.preventDefault();
-            changeView($('#activityDiv'), $('#activityLink'));
+            changeView($('#usersDiv'), $('#usersLink'));
         });
 
         $('#reportsLink').on('click', function (e) {
             e.preventDefault();
             changeView($('#reportsDiv'), $('#reportsLink'));
+        });
+
+        // If U of U student, auto fill out school name.
+        $('body').on('change', $('#uOfUStudent'), function (e) {
+            e.preventDefault();
+
+            if ($('#uOfUStudent').is(':checked')) {
+                $('#schoolName').val('University of Utah');
+            } else {
+                $('#schoolName').val('');
+            }
         });
     });
 }

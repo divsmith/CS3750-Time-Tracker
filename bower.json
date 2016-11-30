@@ -7,6 +7,7 @@
     "momentjs": "2.15.1",
     "sugarjs": "2.0.0",
     "sweetalert2": "5.3.1",
-    "bootstrap": "3.3.7"
+    "bootstrap": "3.3.7",
+    "DataTables": "1.10.12"
   }
 }
