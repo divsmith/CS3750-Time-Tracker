@@ -16,6 +16,13 @@ gulp.task('fonts', function () {
 .pipe(gulp.dest('css/fonts'))
 });
 
+gulp.task('images', function () {
+    return gulp.src([
+        'bower_components/DataTables/media/images/*'
+    ])
+.pipe(gulp.dest('css/images'))
+});
+
 gulp.task('JSdependencies', function () {
     return gulp.src([
         'bower_components/sweetalert2/dist/sweetalert2.js',
@@ -24,7 +31,9 @@ gulp.task('JSdependencies', function () {
         'bower_components/jquery/dist/jquery.js',
         'bower_components/momentjs/min/moment.min.js',
         'bower_components/jquery-validation/dist/jquery.validate.js',
-        'bower_components/bootstrap/dist/js/bootstrap.min.js'
+        'bower_components/bootstrap/dist/js/bootstrap.min.js',
+        'bower_components/DataTables/media/js/jquery.dataTables.min.js',
+        'bower_components/DataTables/media/js/dataTables.bootstrap.min.js'
     ])
     .pipe(gulp.dest('js/libs'))
 });
@@ -33,7 +42,9 @@ gulp.task('CSSdependencies', function () {
     return gulp.src([
         'bower_components/sweetalert2/dist/sweetalert2.css',
         'bower_components/bootstrap/dist/css/bootstrap-theme.min.css',
-        'bower_components/bootstrap/dist/css/bootstrap.min.css'
+        'bower_components/bootstrap/dist/css/bootstrap.min.css',
+        'bower_components/DataTables/media/css/jquery.dataTables.min.css',
+        'bower_components/DataTables/media/css/dataTables.bootstrap.min.css'
     ])
     .pipe(gulp.dest('css/libs'))
 });
