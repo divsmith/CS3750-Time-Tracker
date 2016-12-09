@@ -6,8 +6,12 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Twig_' => array($vendorDir . '/twig/twig/lib'),
     'TokenReflection' => array($vendorDir . '/andrewsville/php-token-reflection'),
     'Symfony\\Component\\OptionsResolver\\' => array($vendorDir . '/symfony/options-resolver'),
+    'RoadHome\\Services' => array($baseDir . '/src/Services'),
+    'RoadHome\\Infrastructure' => array($baseDir . '/src/Infrastructure'),
+    'RoadHome\\Domain' => array($baseDir . '/src/Domain'),
     'Prophecy\\' => array($vendorDir . '/phpspec/prophecy/src'),
     'Pimple' => array($vendorDir . '/pimple/pimple/src'),
     'PHP_' => array($vendorDir . '/pdepend/pdepend/src/main/php'),
@@ -21,5 +25,4 @@ return array(
     'Google_' => array($vendorDir . '/google/apiclient/src'),
     'FSHL' => array($vendorDir . '/kukulich/fshl'),
     'Evenement' => array($vendorDir . '/evenement/evenement/src'),
-    '' => array($baseDir . '/src/Domain'),
 );

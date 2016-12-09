@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="ISO-8859-1">
+    <title>Volunteer Report</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+
+    <link rel="apple-touch-icon" href="apple-touch-icon.png"><!--I don't think this should be here -->
+    <link rel="stylesheet" href="http://icarus.cs.weber.edu/~mr91431/cs4350/resources/public/css/libs/bootstrap.min.css">
+    <link rel="stylesheet" href="http://icarus.cs.weber.edu/~mr91431/cs4350/resources/public/css/libs/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="http://icarus.cs.weber.edu/~mr91431/cs4350/resources/public/css/libs/sweetalert2.css" />
+    <link rel="stylesheet" href="http://icarus.cs.weber.edu/~mr91431/cs4350/resources/public/css/main.css">
+
+    <script src="http://icarus.cs.weber.edu/~mr91431/cs4350/resources/public/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+    <script src="http://icarus.cs.weber.edu/~mr91431/cs4350/resources/public/js/libs/jquery.js"></script>
+    <script src="http://icarus.cs.weber.edu/~mr91431/cs4350/resources/public/js/libs/jquery.validate.js"></script>
+
+    <script src="http://icarus.cs.weber.edu/~mr91431/cs4350/resources/public/js/libs/bootstrap.min.js"></script>
+    <script src="http://icarus.cs.weber.edu/~mr91431/cs4350/resources/public/js/libs/moment.min.js"></script>
+    <script src="http://icarus.cs.weber.edu/~mr91431/cs4350/resources/public/js/libs/sugar.js"></script>
+    <script src="http://icarus.cs.weber.edu/~mr91431/cs4350/resources/public/js/libs/sweetalert2.js"></script>
+</head>
+<body>
+
+<nav class="navbar navbar-default navbar-fixed-top light_shadow teal_text" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">
+                <span class="brand-image"><img alt="Brand" src="http://icarus.cs.weber.edu/~mr91431/cs4350/resources/public/images/icn_ribbon.png"></span>
+                <label>The Road Home</label>
+            </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li class=""><a href="/" id="timeLink">One-Time/Group</a></li>
+                <li><a href="/" id="groupLink">On-Going Volunteer</a></li>
+                <li class="active"><a href="#" id="timeLink">Reports Overview</a></li>
+            </ul>
+            <form id="adminSigninForm" class="navbar-form navbar-right" role="form" novalidate>
+                <div class="form-group">
+                    <input type="email" id="adminEmail" placeholder="Email" class="form-control" required value="test@test.com" />
+                </div>
+                <div class="form-group">
+                    <input id="adminPwd" type="password" placeholder="Password" class="form-control" minlength="3" required value="1234" />
+                </div>
+                <a class="btn btn-success" href="/admin" role="button" id="loginAdmin">Sign in</a>
+            </form>
+        </div><!--/.navbar-collapse -->
+    </div>
+</nav>
+
+<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
+
+	<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+        <h2>Volunteers Report</h2>
+
+        <table id="onGoingTable" class="table">
+            <tr>
+                <th>Email</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Organization</th>
+                <th>Department</th>
+                <th>Group Number</th>
+                <th>Location</th>
+                <th>Hours</th>
+            </tr>
+
+
+        </table>
+
+    </div>
+    <div id="footer" style=""></div>
+
+    <script>
+        $.getJSON('/volunteers', function(data) {
+            for(var i = 0; i < data.length; i++ ) {
+                var $table = $('#onGoingTable');
+
+                $table.append("<tr>" + "<td>" + data[i]['email'] + "</td>" + "<td>" + data[i]['firstname'] + "</td>" + "<td>" + data[i]['lastname'] + "</td>"+
+                        "<td>" + data[i]['organization'] + "</td>" + "<td>" + data[i]['department'] + "</td>" +
+                        "<td>" + data[i]['groupnumber'] + "</td>" + "<td>" + data[i]['location'] + "</td>" + "<td>" + parseInt((Date.parse(data[i]['login']) - Date.parse(data[i]['logout']))/36000000) + "</td>"+
+                        "</tr>");
+
+                console.log((Date.parse(data[i]['login']) - Date.parse(data[i]['logout'])));
+            }
+            $('#footer').append("<div style='height:60px;'> <footer class='footer ' style='height:50px;position:absolute;bottom:100%;'> <p>&copy; Alpha Coders 2016</p> </footer> </div>");
+
+        });
+    </script>
+
+</body>
+</html>

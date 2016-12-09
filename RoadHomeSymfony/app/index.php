@@ -33,14 +33,14 @@ $repo = $dic['db-driver'];
 $mysqlrepo = new MysqlVolunteerRepository($repo);
 $mysql_admin = new MysqlAdminRepository($repo);
 
-$app->get('/', function () {
+$app->get('/', function () use($app){
 
     var_dump(file_exists("../src/Domain/Volunteer.php"));
     var_dump(__DIR__);
 
     $response = new Response();
     $response->setStatusCode(200);
-    return $response;
+    return $app->redirect('/loginPage');
 
 });
 
@@ -56,12 +56,13 @@ $app->get('/loginPage', function(){
     $response->headers->set('Content-Type', 'text/html');
 
     try {
-        $response->setContent(file_get_contents(__DIR__."/../RoadHomeSymfony/login.html"));
+        $response->setContent(file_get_contents(__DIR__."/../index.html"));
     } catch(\Exception $e){
         $e->getMessage();
     }
     return $response;
 });
+
 
 /**
  * gets the loginPage css
@@ -78,6 +79,7 @@ $app->get('/css/login', function(){
     }
     return $response;
 });
+
 
 /**
  * gets the loginPage javascript
@@ -96,6 +98,25 @@ $app->get('/javascript/login', function(){
 
 });
 
+
+/**
+ * gets the loginPage javascript
+ */
+$app->get('/fonts', function(){
+
+    $response = new Response();
+    $response->setStatusCode(200);
+    $response->headers->set('Content-Type', 'application/javascript');
+    try {
+        $response->setContent(file_get_contents(__DIR__."/../public/js/loginJSON.js"));
+    } catch(\Exception $e){
+        $e->getMessage();
+    }
+    return $response;
+
+});
+
+
 /**
  * gets the jquery javascript
  */
@@ -105,6 +126,24 @@ $app->get('/javascript/jquery',function(){
     $response->headers->set('Content-Type', 'application/javascript');
     try {
         $response->setContent(file_get_contents(__DIR__."/../public/js/jquery-3.1.1.min.js"));
+    } catch(\Exception $e){
+        $e->getMessage();
+    }
+    return $response;
+
+});
+
+
+
+/**
+ * gets the jquery javascript
+ */
+$app->get('/javascript/main',function(){
+    $response = new Response();
+    $response->setStatusCode(200);
+    $response->headers->set('Content-Type', 'application/javascript');
+    try {
+        $response->setContent(file_get_contents(__DIR__."/../public/js/main.js"));
     } catch(\Exception $e){
         $e->getMessage();
     }
@@ -137,6 +176,7 @@ $app->get('/volunteers', function(Request $request) use($mysqlrepo) {
     return $response;
 });
 
+
 /**
  * Select a single record with the specified ID
  * We May deprecate this endpoint
@@ -162,6 +202,7 @@ $app->get('/volunteers/{id}', function(Request $request,$id) use ($mysqlrepo) {
     $response->setContent($jsonData);
     return $response;
 });
+
 
 /**
  * This route will accept the posted info and persist it to the Mysql DB
@@ -288,6 +329,12 @@ $app->get('/reports', function(Request $request) use($mysqlrepo){
     allToCSV($mysqlrepo);
 
     $response = new Response();
+
+    try {
+        $response->setContent(file_get_contents(__DIR__."/../VolunteerReport.html"));
+    } catch(\Exception $e){
+        $e->getMessage();
+    }
     $response->setStatusCode(200);
     return $response;
 
@@ -401,12 +448,12 @@ $app->run();
 function volunteerSanitation($jsonArray) {
 
     $cleanEmail = filter_var($jsonArray['email'],FILTER_SANITIZE_EMAIL);
-    $cleanFirst = filter_var($jsonArray['firstname'],FILTER_SANITIZE_URL);
-    $cleanLast = filter_var($jsonArray['lastname'],FILTER_SANITIZE_URL);
-    $cleanOrganization = filter_var($jsonArray['organization'],FILTER_SANITIZE_URL);
-    $cleanDepartment = filter_var($jsonArray['department'],FILTER_SANITIZE_URL);
+    $cleanFirst = filter_var($jsonArray['firstname'],FILTER_SANITIZE_STRING);
+    $cleanLast = filter_var($jsonArray['lastname'],FILTER_SANITIZE_STRING);
+    $cleanOrganization = filter_var($jsonArray['organization'],FILTER_SANITIZE_STRING);
+    $cleanDepartment = filter_var($jsonArray['department'],FILTER_SANITIZE_STRING);
     $cleanGroupnumber = filter_var($jsonArray['groupnumber'],FILTER_SANITIZE_URL);
-    $cleanLocation = filter_var($jsonArray['location'], FILTER_SANITIZE_URL);
+    $cleanLocation = filter_var($jsonArray['location'], FILTER_SANITIZE_STRING);
 
     $responseData = ['email' => $cleanEmail, 'firstname' => $cleanFirst, 'lastname' => $cleanLast,
         'organization' => $cleanOrganization, 'department' => $cleanDepartment, 'groupnumber' => $cleanGroupnumber, 'location' => $cleanLocation];

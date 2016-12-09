@@ -59,7 +59,7 @@ class MysqlVolunteerRepository implements VolunteerRepository
         $currentTime = Date('Y-m-d H:i:s');
 
         $data = [$volunteer->getEmail(), $volunteer->getFirstname(), $volunteer->getLastname(),
-        $volunteer->getOrganization(), $volunteer->getDepartment(), $volunteer->getGroupnumber(),$currentTime,NULL,$volunteer->getLocation()];
+        $volunteer->getOrganization(), $volunteer->getDepartment(), $volunteer->getGroupnumber(),$currentTime,null,$volunteer->getLocation()];
 
         try {
             $this->driver->prepare(

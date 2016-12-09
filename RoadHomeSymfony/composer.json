@@ -29,7 +29,8 @@
         "pimple/pimple": "^3.0",
         "phpmd/phpmd": "^1.5",
         "silex/silex": "~2.0",
-        "google/apiclient": "^2.0"
+        "google/apiclient": "^2.0",
+        "twig/twig": "^1.28"
     },
     "require-dev": {
         "apigen/apigen": "^4.0",

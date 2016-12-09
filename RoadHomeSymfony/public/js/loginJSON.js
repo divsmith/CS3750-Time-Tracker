@@ -1,21 +1,36 @@
 
 $(document).ready(function(){
 
+    var $email = $('#email');
+    var $firstname = $('#firstname');
+    var $lastname = $('#lastname');
+    var $organization = $('#organization');
+    var $department = $('#department');
+    var $groupnumber = $('#groupnumber');
+    var $location = $('#location');
+
+
+
+
+
     $('#submitButton').click(function(){
 
-        var email = $('#email').val();
-        var firstname = $('#firstname').val();
-        var lastname = $('#lastname').val();
-        var organization = $('#organization').val();
-        var groupnumber = $('#groupnumber').val();
+        var email = $email.val();
+        var firstname = $firstname.val();
+        var lastname = $lastname.val();
+        var organization = $organization.val();
+        var department = $department.val();
+        var groupnumber = $groupnumber.val();
+        var location = $location.val();
 
         var jsonData = {
             "email": email,
             "firstname": firstname,
             "lastname": lastname,
             "organization": organization,
-            "department": "departmentNone",
-            "groupnumber": groupnumber
+            "department": department,
+            "groupnumber": groupnumber,
+            "location": location
         };
 
         console.log(jsonData);
@@ -31,15 +46,24 @@ $(document).ready(function(){
             //json object to sent to the authentication url
             data: JSON.stringify(jsonData),
             success: function () {
-
-                alert("Thanks!");
+                clearInput();
             },
             error: function(){
-                alert("Failure!");
+                clearInput();
             }
         })
 
     });
+
+    function clearInput(){
+        $email.val('');
+        $firstname.val('');
+        $lastname.val('');
+        $organization.val('');
+        $department.val('Art Club');
+        $location.val('Midvale, UT');
+        $groupnumber.val('');
+    }
 
 });
 
